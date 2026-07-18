@@ -148,8 +148,14 @@ Questo sostituisce `src/db/database.ts` (Dexie) con un modulo client
 - Il passaggio Dexie → Express/SQLite è il pezzo più "vero" del tuo metodo
   di conversione e vale la pena farlo con calma, testando con curl prima di
   toccare l'interfaccia (Fase 3 del metodo).
-- `public/sprites.png` (spritesheet 1376×768 del tema campeggio) non è più
-  collegato a nulla: il file che lo usava (`SpriteSheet.jsx`) è stato
-  eliminato perché mai importato — la grafica in gioco è disegnata da
-  `TileSprites.jsx` come SVG inline. Il PNG è tenuto come riferimento
-  tecnico per l'eventuale Fase 5 (rifinitura grafica a tema Colonia 1701).
+
+## Nota aperta — grafiche (rimandata a Fase 5)
+
+Le piazzole/strutture sono disegnate come SVG isometrici scritti a mano in
+`src/components/grid/TileSprites.tsx` (~584 righe: poligoni pixel-art per
+tende, roulotte, ecc.), NON tramite immagini o emoji. Dopo i blocchi 1-4
+(funzionali) l'interfaccia mostrerà ancora testi/tema 1701 ma grafiche da
+campeggio: è previsto e rimandato apposta alla Fase 5, quando si ridisegnano
+le forme SVG per il nuovo tema (baracche, case in pietra, pozzo, ecc.).
+`public/sprites.png` resta disponibile come possibile materiale per quella
+fase, in alternativa al ridisegno via SVG.
