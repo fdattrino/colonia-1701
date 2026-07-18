@@ -1,12 +1,4 @@
-import {
-  queryOllama,
-  parseJsonResponse,
-  isOllamaAvailable,
-  logFallback,
-} from './ollamaClient'
-import { chatterPrompt } from './prompts'
 import { useGameStore } from '../store/gameStore'
-import { isFacilityType, STRUCTURE_LABELS } from '../store/types'
 import type { TouristGroup, ChatterMood, Personality } from '../store/types'
 
 const FALLBACK_LINES: Record<Personality, Record<ChatterMood, string[]>> = {
@@ -242,10 +234,11 @@ const WEATHER_SPECIFIC_LINES: Record<string, Record<Personality, string[]>> = {
 const ACTIONABLE_PATTERNS =
   /\b(need|where|no |closed|rip-off|broken|fix|missing|dirty|clean|refund|price|expensive|safe|loud|noise|quiet|wifi|wi-fi|restroom|bathroom|shower|playground|store|trail)\b/i
 
-function fallbackChatter(
+export function generateChatter(
   tourist: TouristGroup,
-  weather: string
+  replyTarget?: { name: string; text: string }
 ): { text: string; mood: ChatterMood; actionable?: boolean } {
+  const weather = useGameStore.getState().weather
   const mood = pickMood(tourist.satisfaction, weather)
 
   // Use weather-specific lines sometimes for bad weather
@@ -260,119 +253,4 @@ function fallbackChatter(
   const lines = FALLBACK_LINES[tourist.personality]?.[mood]
   const text = lines ? pick(lines) : "It's nice out here."
   return { text, mood, actionable: ACTIONABLE_PATTERNS.test(text) }
-}
-
-function getNearbyContext(tourist: TouristGroup) {
-  const state = useGameStore.getState()
-  const { grid, tourists } = state
-  if (!tourist.assignedPlot) return { nearbyNames: [], nearbyFacilities: [] }
-
-  const { x, y } = tourist.assignedPlot
-  const nearbyNames: string[] = []
-  const nearbyFacilities: string[] = []
-
-  for (let dy = -3; dy <= 3; dy++) {
-    for (let dx = -3; dx <= 3; dx++) {
-      if (dx === 0 && dy === 0) continue
-      const tile = grid[y + dy]?.[x + dx]
-      if (!tile) continue
-      if (tile.occupant) {
-        const neighbor = tourists.find((t) => t.id === tile.occupant)
-        if (neighbor && neighbor.id !== tourist.id) {
-          nearbyNames.push(neighbor.name.split(' ')[0])
-        }
-      }
-      if (tile.structure && isFacilityType(tile.structure.type)) {
-        nearbyFacilities.push(STRUCTURE_LABELS[tile.structure.type])
-      }
-    }
-  }
-
-  return {
-    nearbyNames: [...new Set(nearbyNames)],
-    nearbyFacilities: [...new Set(nearbyFacilities)],
-  }
-}
-
-export async function generateChatter(
-  tourist: TouristGroup,
-  replyTarget?: { name: string; text: string }
-): Promise<{
-  text: string
-  mood: ChatterMood
-  actionable?: boolean
-}> {
-  const state = useGameStore.getState()
-  const available = await isOllamaAvailable()
-
-  if (!available) {
-    logFallback('chatter')
-    return fallbackChatter(tourist, state.weather)
-  }
-
-  try {
-    const { nearbyNames, nearbyFacilities } = getNearbyContext(tourist)
-
-    const recentChatter = getRecentNearbyChatter(tourist)
-
-    const prompt = chatterPrompt(
-      tourist.name,
-      tourist.personality,
-      tourist.composition,
-      tourist.satisfaction,
-      state.weather,
-      state.hour,
-      nearbyNames,
-      nearbyFacilities,
-      recentChatter,
-      replyTarget
-    )
-
-    const response = await queryOllama(prompt)
-    const parsed = parseJsonResponse<{
-      text: string
-      mood: ChatterMood
-      actionable?: boolean
-    }>(response)
-
-    if (parsed?.text && parsed?.mood) {
-      let text = parsed.text.replace(/^["']|["']$/g, '').trim()
-      if (text.length > 100) {
-        const cut = text.lastIndexOf(' ', 100)
-        text =
-          text.slice(0, cut > 60 ? cut : 100).replace(/[.,!?;:\s]+$/, '') + '…'
-      }
-      return {
-        text,
-        mood: parsed.mood,
-        actionable: parsed.actionable === true,
-      }
-    }
-
-    logFallback('chatter — bad AI response')
-    return fallbackChatter(tourist, state.weather)
-  } catch {
-    logFallback('chatter — AI error')
-    return fallbackChatter(tourist, state.weather)
-  }
-}
-
-function getRecentNearbyChatter(
-  tourist: TouristGroup
-): Array<{ name: string; text: string }> {
-  const state = useGameStore.getState()
-  const { nearbyNames } = getNearbyContext(tourist)
-  const nearbyFirstNames = new Set(nearbyNames)
-  nearbyFirstNames.add(tourist.name.split(' ')[0])
-
-  return state.chatter
-    .filter((msg) => {
-      const firstName = msg.touristName.split(' ')[0]
-      return nearbyFirstNames.has(firstName) && msg.touristId !== tourist.id
-    })
-    .slice(0, 5)
-    .map((msg) => ({
-      name: msg.touristName.split(' ')[0],
-      text: msg.text,
-    }))
 }

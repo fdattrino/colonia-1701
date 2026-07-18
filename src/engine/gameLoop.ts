@@ -4,8 +4,8 @@ import {
   generateTourist,
   selectPlot,
   generateReview,
-} from '../ai/touristGenerator'
-import { generateChatter } from '../ai/chatterGenerator'
+} from './touristGenerator'
+import { generateChatter } from './chatterGenerator'
 import { calculateSatisfactionDelta } from './satisfactionCalc'
 import { rollWeather } from './weatherSystem'
 import {

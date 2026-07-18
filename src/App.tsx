@@ -6,7 +6,6 @@ import { EventLog } from './components/ui/EventLog'
 import { TileInfo } from './components/ui/TileInfo'
 import { GuestChatter } from './components/ui/GuestChatter'
 import { Tutorial } from './components/ui/Tutorial'
-import { DevConsole } from './components/ui/DevConsole'
 import { useGameLoop } from './engine/gameLoop'
 import { loadSavedGame } from './store/gameStore'
 
@@ -19,7 +18,6 @@ export default function App() {
 
   useGameLoop()
 
-  const [showDevConsole, setShowDevConsole] = useState(true)
   const [bottomHeight, setBottomHeight] = useState(160)
   const [sidebarWidth, setSidebarWidth] = useState(240)
   const dragging = useRef(false)
@@ -103,11 +101,7 @@ export default function App() {
 
   return (
     <div className='h-screen flex flex-col'>
-      <StatsBar
-        onHelpClick={() => setShowTutorial(true)}
-        onDevConsoleToggle={() => setShowDevConsole((v) => !v)}
-        devConsoleOpen={showDevConsole}
-      />
+      <StatsBar onHelpClick={() => setShowTutorial(true)} />
 
       <div className='flex flex-1 overflow-hidden'>
         <div className='relative shrink-0' style={{ width: sidebarWidth }}>
@@ -133,15 +127,9 @@ export default function App() {
           <div className='mx-auto w-10 h-1 mt-px rounded-full bg-stone-700 group-hover:bg-stone-400 transition-colors' />
         </div>
         <div className='flex h-full bg-stone-900/95 pt-1.5'>
-          <div
-            className={`${showDevConsole ? 'w-1/2' : 'w-full'} border-r border-stone-700 overflow-hidden`}>
+          <div className='w-full overflow-hidden'>
             <EventLog />
           </div>
-          {showDevConsole && (
-            <div className='w-1/2 overflow-hidden'>
-              <DevConsole />
-            </div>
-          )}
         </div>
       </div>
 

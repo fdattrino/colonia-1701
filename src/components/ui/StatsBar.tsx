@@ -1,15 +1,7 @@
 import { useGameStore } from '../../store/gameStore'
 import { WEATHER_LABELS, SEASON_LABELS } from '../../utils/constants'
 
-export function StatsBar({
-  onHelpClick,
-  onDevConsoleToggle,
-  devConsoleOpen,
-}: {
-  onHelpClick: () => void
-  onDevConsoleToggle: () => void
-  devConsoleOpen: boolean
-}) {
+export function StatsBar({ onHelpClick }: { onHelpClick: () => void }) {
   const day = useGameStore((s) => s.day)
   const hour = useGameStore((s) => s.hour)
   const money = useGameStore((s) => s.money)
@@ -73,17 +65,6 @@ export function StatsBar({
       </div>
 
       <div className='flex-1' />
-
-      <button
-        onClick={onDevConsoleToggle}
-        className={`px-2 py-1 rounded text-xs transition-colors ${
-          devConsoleOpen
-            ? 'bg-cyan-900/60 text-cyan-300 border border-cyan-700'
-            : 'bg-stone-700 text-stone-400 hover:bg-stone-600 hover:text-stone-200'
-        }`}
-        title='Toggle dev console'>
-        {'>'}_
-      </button>
 
       <button
         onClick={onHelpClick}
