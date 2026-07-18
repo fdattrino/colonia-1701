@@ -83,11 +83,11 @@ export default function App() {
   )
 
   const [showTutorial, setShowTutorial] = useState(() => {
-    return !localStorage.getItem('campground-tutorial-seen')
+    return !localStorage.getItem('colonia1701-tutorial-seen')
   })
 
   function closeTutorial() {
-    localStorage.setItem('campground-tutorial-seen', '1')
+    localStorage.setItem('colonia1701-tutorial-seen', '1')
     setShowTutorial(false)
   }
 

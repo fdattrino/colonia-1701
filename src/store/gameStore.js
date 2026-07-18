@@ -228,7 +228,7 @@ useGameStore.subscribe(
 useGameStore.subscribe(
   (state) => state.speed,
   (speed) => {
-    localStorage.setItem('campground-speed', String(speed))
+    localStorage.setItem('colonia1701-speed', String(speed))
   }
 )
 
@@ -243,7 +243,7 @@ window.addEventListener('beforeunload', () => {
 export async function loadSavedGame() {
   const saved = await loadGame()
   if (saved) {
-    const lsSpeed = localStorage.getItem('campground-speed')
+    const lsSpeed = localStorage.getItem('colonia1701-speed')
     const speed =
       lsSpeed != null && [0, 1, 2, 5].includes(Number(lsSpeed))
         ? Number(lsSpeed)
