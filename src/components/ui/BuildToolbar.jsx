@@ -1,3 +1,4 @@
+import Button from 'react-bootstrap/Button'
 import { useGameStore } from '../../store/gameStore'
 import {
   PLOT_TYPES,
@@ -15,24 +16,18 @@ function BuildButton({ type }) {
   const canAfford = money >= BUILD_COSTS[type]
 
   return (
-    <button
+    <Button
+      size='sm'
+      variant={isActive ? 'warning' : 'outline-secondary'}
       onClick={() => setBuildMode(isActive ? null : type)}
       disabled={!canAfford && !isActive}
-      className={`
-        flex flex-col items-start px-2 py-1.5 rounded text-xs transition-colors w-full text-left
-        ${
-          isActive
-            ? 'bg-amber-500/20 border border-amber-500 text-amber-200'
-            : canAfford
-              ? 'bg-stone-700/50 border border-stone-600 text-stone-300 hover:bg-stone-600/50'
-              : 'bg-stone-800/50 border border-stone-700 text-stone-500 cursor-not-allowed'
-        }
-      `}>
-      <span className='font-medium'>{STRUCTURE_LABELS[type]}</span>
-      <span className={canAfford ? 'text-green-400' : 'text-red-400'}>
-        ${BUILD_COSTS[type]}
+      className='w-100 text-start d-flex flex-column align-items-start py-1'>
+      <span className='small'>{STRUCTURE_LABELS[type]}</span>
+      <span
+        className={`small ${isActive ? '' : canAfford ? 'text-success' : 'text-danger'}`}>
+        🪙 {BUILD_COSTS[type]}
       </span>
-    </button>
+    </Button>
   )
 }
 
@@ -41,12 +36,12 @@ export function BuildToolbar() {
   const setBuildMode = useGameStore((s) => s.setBuildMode)
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='d-flex flex-column gap-3'>
       <div>
-        <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-1.5'>
-          Plots
-        </h3>
-        <div className='flex flex-col gap-1'>
+        <h6 className='text-secondary text-uppercase small fw-semibold mb-1'>
+          Alloggi
+        </h6>
+        <div className='d-grid gap-1'>
           {PLOT_TYPES.map((type) => (
             <BuildButton key={type} type={type} />
           ))}
@@ -54,10 +49,10 @@ export function BuildToolbar() {
       </div>
 
       <div>
-        <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-1.5'>
-          Facilities
-        </h3>
-        <div className='flex flex-col gap-1'>
+        <h6 className='text-secondary text-uppercase small fw-semibold mb-1'>
+          Servizi
+        </h6>
+        <div className='d-grid gap-1'>
           {FACILITY_TYPES.map((type) => (
             <BuildButton key={type} type={type} />
           ))}
@@ -65,31 +60,27 @@ export function BuildToolbar() {
       </div>
 
       <div>
-        <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-1.5'>
-          Tools
-        </h3>
-        <button
+        <h6 className='text-secondary text-uppercase small fw-semibold mb-1'>
+          Strumenti
+        </h6>
+        <Button
+          size='sm'
+          variant={buildMode === 'demolish' ? 'danger' : 'outline-secondary'}
           onClick={() =>
             setBuildMode(buildMode === 'demolish' ? null : 'demolish')
           }
-          className={`
-            px-2 py-1.5 rounded text-xs font-medium w-full text-left transition-colors
-            ${
-              buildMode === 'demolish'
-                ? 'bg-red-500/20 border border-red-500 text-red-300'
-                : 'bg-stone-700/50 border border-stone-600 text-stone-300 hover:bg-stone-600/50'
-            }
-          `}>
-          🔨 Demolish (50% refund)
-        </button>
+          className='w-100 text-start'>
+          🔨 Demolisci (rimborso 50%)
+        </Button>
       </div>
 
       {buildMode && (
-        <button
-          onClick={() => setBuildMode(null)}
-          className='px-2 py-1 rounded text-xs bg-stone-600 text-stone-300 hover:bg-stone-500 transition-colors'>
-          Cancel Build Mode
-        </button>
+        <Button
+          size='sm'
+          variant='secondary'
+          onClick={() => setBuildMode(null)}>
+          Annulla costruzione
+        </Button>
       )}
     </div>
   )

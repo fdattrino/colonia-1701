@@ -411,7 +411,7 @@ export function StructureSprite({ type, occupied }) {
             {/* Sign */}
             <rect x={12} y={10} width={20} height={5} fill='#fff' />
             <text x={14} y={14} fontSize={4} fill='#333' fontWeight='bold'>
-              STORE
+              EMPORIO
             </text>
           </g>
         </svg>
@@ -505,8 +505,8 @@ export function StructureSprite({ type, occupied }) {
             <rect x={6} y={4} width={3} height={18} fill='#6a4e0e' />
             <rect x={0} y={2} width={16} height={8} fill='#8B6914' />
             <polygon points='16,2 20,6 16,10' fill='#8B6914' />
-            <text x={2} y={8} fontSize={5} fill='#fff' fontWeight='bold'>
-              TRAIL
+            <text x={2} y={8} fontSize={4} fill='#fff' fontWeight='bold'>
+              STRADA
             </text>
           </g>
         </svg>
@@ -558,7 +558,7 @@ export function StructureSprite({ type, occupied }) {
               fill='#5a3a1e'
               fontWeight='bold'
               textAnchor='middle'>
-              CAMPGROUND
+              COLONIA
             </text>
           </g>
         </svg>

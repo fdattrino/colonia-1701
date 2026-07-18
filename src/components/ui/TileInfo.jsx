@@ -1,5 +1,14 @@
+import Card from 'react-bootstrap/Card'
 import { useGameStore } from '../../store/gameStore'
 import { STRUCTURE_LABELS, isPlotType } from '../../store/constants'
+
+const TERRAIN_LABELS = {
+  grass: 'prato',
+  trees: 'bosco',
+  water: 'fiume',
+  path: 'strada',
+  sand: 'sabbia',
+}
 
 export function TileInfo() {
   const selectedTile = useGameStore((s) => s.selectedTile)
@@ -17,49 +26,55 @@ export function TileInfo() {
     : null
 
   return (
-    <div className='absolute bottom-12 left-1/2 -translate-x-1/2 bg-stone-800/95 border border-stone-600 rounded-lg px-4 py-3 shadow-xl min-w-[200px] z-50'>
-      <div className='text-xs text-stone-400 mb-1'>
-        Tile ({tile.x}, {tile.y}) — {tile.terrain}
-      </div>
-
-      {tile.structure && (
-        <div className='text-sm font-medium text-stone-200'>
-          {STRUCTURE_LABELS[tile.structure.type]}
-          {tile.structure.level > 1 && (
-            <span className='text-amber-400 ml-1'>
-              Lv.{tile.structure.level}
-            </span>
-          )}
+    <Card
+      bg='dark'
+      className='position-absolute start-50 translate-middle-x border-secondary shadow'
+      style={{ bottom: '3rem', minWidth: '200px', zIndex: 50 }}>
+      <Card.Body className='p-3'>
+        <div className='small text-secondary mb-1'>
+          Casella ({tile.x}, {tile.y}) — {TERRAIN_LABELS[tile.terrain]}
         </div>
-      )}
 
-      {tile.structure && isPlotType(tile.structure.type) && (
-        <div className='text-xs text-green-400 mt-0.5'>
-          ${pricing[tile.structure.type]}/night
-        </div>
-      )}
-
-      {occupant && (
-        <div className='mt-2 pt-2 border-t border-stone-700'>
-          <div className='text-sm font-medium text-cyan-300'>
-            {occupant.name}
+        {tile.structure && (
+          <div className='fw-medium'>
+            {STRUCTURE_LABELS[tile.structure.type]}
+            {tile.structure.level > 1 && (
+              <span className='text-warning ms-1'>
+                Liv.{tile.structure.level}
+              </span>
+            )}
           </div>
-          <div className='text-xs text-stone-400'>{occupant.composition}</div>
-          <div className='text-xs text-stone-400 mt-0.5'>
-            Satisfaction: {occupant.satisfaction}% | Day{' '}
-            {Math.max(1, useGameStore.getState().day - occupant.arrivalDay + 1)}
-            /{occupant.tripDuration}
-          </div>
-        </div>
-      )}
+        )}
 
-      {!tile.structure && (
-        <div className='text-xs text-stone-500 mt-1'>
-          {tile.terrain === 'water' || tile.terrain === 'trees'
-            ? 'Cannot build here'
-            : 'Select a structure to build here'}
-        </div>
-      )}
-    </div>
+        {tile.structure && isPlotType(tile.structure.type) && (
+          <div className='small text-success'>
+            🪙 {pricing[tile.structure.type]}/notte
+          </div>
+        )}
+
+        {occupant && (
+          <div className='mt-2 pt-2 border-top'>
+            <div className='fw-medium text-info'>{occupant.name}</div>
+            <div className='small text-secondary'>{occupant.composition}</div>
+            <div className='small text-secondary'>
+              Soddisfazione: {occupant.satisfaction}% | Giorno{' '}
+              {Math.max(
+                1,
+                useGameStore.getState().day - occupant.arrivalDay + 1
+              )}
+              /{occupant.tripDuration}
+            </div>
+          </div>
+        )}
+
+        {!tile.structure && (
+          <div className='small text-secondary mt-1'>
+            {tile.terrain === 'water' || tile.terrain === 'trees'
+              ? 'Non si può costruire qui'
+              : 'Scegli una struttura da costruire qui'}
+          </div>
+        )}
+      </Card.Body>
+    </Card>
   )
 }

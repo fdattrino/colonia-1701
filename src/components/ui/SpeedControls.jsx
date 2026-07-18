@@ -1,3 +1,5 @@
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Button from 'react-bootstrap/Button'
 import { useGameStore } from '../../store/gameStore'
 
 export function SpeedControls() {
@@ -12,22 +14,16 @@ export function SpeedControls() {
   ]
 
   return (
-    <div className='flex items-center gap-1'>
+    <ButtonGroup size='sm'>
       {speeds.map(({ value, label }) => (
-        <button
+        <Button
           key={value}
           onClick={() => setSpeed(value)}
-          className={`
-            px-2.5 py-1 rounded text-xs font-bold transition-colors
-            ${
-              speed === value
-                ? 'bg-amber-500 text-stone-900'
-                : 'bg-stone-700 text-stone-300 hover:bg-stone-600'
-            }
-          `}>
+          variant={speed === value ? 'warning' : 'secondary'}
+          className='fw-bold'>
           {label}
-        </button>
+        </Button>
       ))}
-    </div>
+    </ButtonGroup>
   )
 }

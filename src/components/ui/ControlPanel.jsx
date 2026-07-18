@@ -7,22 +7,24 @@ import { SaveLoadPanel } from './SaveLoadPanel'
 
 export function ControlPanel() {
   return (
-    <div className='w-56 bg-stone-900/95 border-l border-stone-700 flex flex-col overflow-y-auto'>
-      <div className='px-3 py-2 border-b border-stone-700 flex flex-col gap-2'>
+    <div
+      className='bg-body-tertiary border-start d-flex flex-column overflow-y-auto'
+      style={{ width: '14rem' }}>
+      <div className='px-3 py-2 border-bottom d-flex flex-column gap-2'>
         <SpeedControls />
         <SaveLoadPanel />
       </div>
 
-      <div className='flex-1 overflow-y-auto'>
-        <div className='px-3 py-3 border-b border-stone-700/50'>
+      <div className='flex-grow-1 overflow-y-auto'>
+        <div className='px-3 py-3 border-bottom'>
           <BuildToolbar />
         </div>
 
-        <div className='px-3 py-3 border-b border-stone-700/50'>
+        <div className='px-3 py-3 border-bottom'>
           <PricingPanel />
         </div>
 
-        <div className='px-3 py-3 border-b border-stone-700/50'>
+        <div className='px-3 py-3 border-bottom'>
           <TouristPanel />
         </div>
 

@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Badge from 'react-bootstrap/Badge'
+import Stack from 'react-bootstrap/Stack'
 import { useGameStore, extractGameState } from '../../store/gameStore'
 import { saveGame, loadGame, clearSave } from '../../db/database'
 
@@ -13,10 +16,10 @@ export function SaveLoadPanel() {
     setSaving(true)
     try {
       await saveGame(extractGameState(useGameStore.getState()))
-      setMessage('Saved!')
+      setMessage('Salvato!')
       setTimeout(() => setMessage(''), 2000)
     } catch {
-      setMessage('Save failed')
+      setMessage('Salvataggio fallito')
     } finally {
       setSaving(false)
     }
@@ -28,13 +31,13 @@ export function SaveLoadPanel() {
       const saved = await loadGame()
       if (saved) {
         useGameStore.setState(saved)
-        setMessage('Loaded!')
+        setMessage('Caricato!')
       } else {
-        setMessage('No save found')
+        setMessage('Nessun salvataggio')
       }
       setTimeout(() => setMessage(''), 2000)
     } catch {
-      setMessage('Load failed')
+      setMessage('Caricamento fallito')
     } finally {
       setLoading(false)
     }
@@ -49,34 +52,37 @@ export function SaveLoadPanel() {
     setConfirming(false)
     resetGame()
     await clearSave().catch(() => {})
-    setMessage('New game started!')
+    setMessage('Nuova partita avviata!')
     setTimeout(() => setMessage(''), 2000)
   }
 
   return (
-    <div className='flex items-center gap-1.5 flex-wrap'>
-      <button
+    <Stack direction='horizontal' gap={1} className='flex-wrap'>
+      <Button
+        size='sm'
+        variant='secondary'
         onClick={handleSave}
-        disabled={saving}
-        className='px-2 py-1 rounded text-xs bg-stone-700 text-stone-300 hover:bg-stone-600 transition-colors disabled:opacity-50'>
-        {saving ? '...' : '💾 Save'}
-      </button>
-      <button
+        disabled={saving}>
+        {saving ? '...' : '💾 Salva'}
+      </Button>
+      <Button
+        size='sm'
+        variant='secondary'
         onClick={handleLoad}
-        disabled={loading}
-        className='px-2 py-1 rounded text-xs bg-stone-700 text-stone-300 hover:bg-stone-600 transition-colors disabled:opacity-50'>
-        {loading ? '...' : '📂 Load'}
-      </button>
-      <button
-        onClick={handleNewGame}
-        className={`px-2 py-1 rounded text-xs transition-colors ${
-          confirming
-            ? 'bg-red-600/30 border border-red-500 text-red-300'
-            : 'bg-stone-700 text-stone-300 hover:bg-stone-600'
-        }`}>
-        {confirming ? 'Confirm?' : '🆕 New'}
-      </button>
-      {message && <span className='text-xs text-amber-400'>{message}</span>}
-    </div>
+        disabled={loading}>
+        {loading ? '...' : '📂 Carica'}
+      </Button>
+      <Button
+        size='sm'
+        variant={confirming ? 'danger' : 'secondary'}
+        onClick={handleNewGame}>
+        {confirming ? 'Confermi?' : '🆕 Nuova'}
+      </Button>
+      {message && (
+        <Badge bg='warning' text='dark'>
+          {message}
+        </Badge>
+      )}
+    </Stack>
   )
 }

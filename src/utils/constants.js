@@ -21,18 +21,18 @@ export const REVIEW_HOUR = 22
 export const DAY_RESET_HOUR = 0
 
 export const WEATHER_LABELS = {
-  sunny: '☀️ Sunny',
-  cloudy: '⛅ Cloudy',
-  rainy: '🌧️ Rainy',
-  stormy: '⛈️ Stormy',
-  perfect: '🌤️ Perfect',
+  sunny: '☀️ Sereno',
+  cloudy: '⛅ Nuvoloso',
+  rainy: '🌧️ Piovoso',
+  stormy: '⛈️ Tempesta',
+  perfect: '🌤️ Splendido',
 }
 
 export const SEASON_LABELS = {
-  spring: '🌱 Spring',
-  summer: '☀️ Summer',
-  fall: '🍂 Fall',
-  winter: '❄️ Winter',
+  spring: '🌱 Primavera',
+  summer: '☀️ Estate',
+  fall: '🍂 Autunno',
+  winter: '❄️ Inverno',
 }
 
 export const SEASON_DEMAND_MULTIPLIER = {

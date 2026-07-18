@@ -1,12 +1,14 @@
+import Card from 'react-bootstrap/Card'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import { useGameStore } from '../../store/gameStore'
 
 const PERSONALITY_LABELS = {
-  'quiet-nature-lover': '🌿 Nature Lover',
-  'social-party': '🎉 Social',
-  'budget-backpacker': '🎒 Backpacker',
-  'comfort-glamper': '✨ Glamper',
-  'adventure-seeker': '⛰️ Adventurer',
-  'family-focused': '👨‍👩‍👧‍👦 Family',
+  'quiet-nature-lover': '🌾 Contadino solitario',
+  'social-party': '🤝 Mercante socievole',
+  'budget-backpacker': '🎒 Pioniere squattrinato',
+  'comfort-glamper': '👑 Nobile in cerca di comfort',
+  'adventure-seeker': '🗺️ Esploratore avventuriero',
+  'family-focused': '👨‍👩‍👧‍👦 Capofamiglia',
 }
 
 export function TouristPanel() {
@@ -18,11 +20,11 @@ export function TouristPanel() {
   if (activeTourists.length === 0) {
     return (
       <div>
-        <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2'>
-          Current Guests
-        </h3>
-        <p className='text-xs text-stone-500'>
-          No guests yet. Build some plots and start the simulation!
+        <h6 className='text-secondary text-uppercase small fw-semibold mb-2'>
+          Coloni presenti
+        </h6>
+        <p className='small text-secondary mb-0'>
+          Nessun colono per ora. Costruisci alloggi e avvia la simulazione!
         </p>
       </div>
     )
@@ -30,51 +32,47 @@ export function TouristPanel() {
 
   return (
     <div>
-      <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2'>
-        Current Guests ({activeTourists.length})
-      </h3>
-      <div className='flex flex-col gap-1.5 max-h-48 overflow-y-auto'>
+      <h6 className='text-secondary text-uppercase small fw-semibold mb-2'>
+        Coloni presenti ({activeTourists.length})
+      </h6>
+      <div
+        className='d-flex flex-column gap-2 overflow-y-auto'
+        style={{ maxHeight: '12rem' }}>
         {activeTourists.map((tourist) => (
-          <div
-            key={tourist.id}
-            className='bg-stone-700/40 rounded px-2 py-1.5 border border-stone-600/50'>
-            <div className='flex items-center justify-between'>
-              <span className='text-xs font-medium text-stone-200'>
-                {tourist.name}
-              </span>
-              <span className='text-[10px] text-stone-400'>
-                {tourist.status === 'arriving'
-                  ? 'Arriving'
-                  : `Day ${Math.max(1, useGameStore.getState().day - tourist.arrivalDay + 1)}/${tourist.tripDuration}`}
-              </span>
-            </div>
-            <div className='flex items-center gap-2 mt-0.5'>
-              <span className='text-[10px] text-stone-400'>
-                {PERSONALITY_LABELS[tourist.personality] || tourist.personality}
-              </span>
-              <span className='text-[10px] text-stone-500'>•</span>
-              <span className='text-[10px] text-stone-400'>
-                {tourist.composition}
-              </span>
-            </div>
-            <div className='flex items-center gap-2 mt-0.5'>
-              <div className='flex-1 bg-stone-600 rounded-full h-1'>
-                <div
-                  className={`h-1 rounded-full transition-all ${
-                    tourist.satisfaction >= 70
-                      ? 'bg-green-400'
-                      : tourist.satisfaction >= 40
-                        ? 'bg-yellow-400'
-                        : 'bg-red-400'
-                  }`}
-                  style={{ width: `${tourist.satisfaction}%` }}
-                />
+          <Card key={tourist.id} bg='dark' className='border-secondary'>
+            <Card.Body className='p-2'>
+              <div className='d-flex align-items-center justify-content-between'>
+                <span className='small fw-medium'>{tourist.name}</span>
+                <span className='small text-secondary'>
+                  {tourist.status === 'arriving'
+                    ? 'In arrivo'
+                    : `Giorno ${Math.max(1, useGameStore.getState().day - tourist.arrivalDay + 1)}/${tourist.tripDuration}`}
+                </span>
               </div>
-              <span className='text-[10px] text-stone-400'>
-                {tourist.satisfaction}%
-              </span>
-            </div>
-          </div>
+              <div className='small text-secondary'>
+                {PERSONALITY_LABELS[tourist.personality] || tourist.personality}
+                {' • '}
+                {tourist.composition}
+              </div>
+              <div className='d-flex align-items-center gap-2 mt-1'>
+                <ProgressBar
+                  now={tourist.satisfaction}
+                  variant={
+                    tourist.satisfaction >= 70
+                      ? 'success'
+                      : tourist.satisfaction >= 40
+                        ? 'warning'
+                        : 'danger'
+                  }
+                  className='flex-grow-1'
+                  style={{ height: '4px' }}
+                />
+                <span className='small text-secondary'>
+                  {tourist.satisfaction}%
+                </span>
+              </div>
+            </Card.Body>
+          </Card>
         ))}
       </div>
     </div>

@@ -51,19 +51,19 @@ export const DEFAULT_PRICING = {
 }
 
 export const STRUCTURE_LABELS = {
-  'tent-small': 'Small Tent',
-  'tent-large': 'Large Tent',
-  campervan: 'Campervan',
-  'rv-hookup': 'RV Hookup',
-  restroom: 'Restroom',
-  shower: 'Shower',
-  'fire-pit': 'Fire Pit',
-  picnic: 'Picnic Area',
-  store: 'Camp Store',
-  playground: 'Playground',
-  'lake-access': 'Lake Access',
-  'trail-head': 'Trail Head',
-  entrance: 'Entrance',
+  'tent-small': 'Baracca di legno',
+  'tent-large': 'Capanna del pioniere',
+  campervan: 'Casa in legno',
+  'rv-hookup': 'Casa in pietra',
+  restroom: 'Pozzo',
+  shower: 'Bagno pubblico',
+  'fire-pit': 'Focolare comune',
+  picnic: 'Area mercato',
+  store: 'Emporio',
+  playground: 'Piazza del villaggio',
+  'lake-access': 'Accesso al fiume',
+  'trail-head': 'Imbocco della strada',
+  entrance: 'Porta della colonia',
 }
 
 export function isPlotType(type) {

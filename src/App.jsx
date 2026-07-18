@@ -93,41 +93,50 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className='h-screen flex items-center justify-center bg-stone-900 text-stone-300'>
-        <p className='text-lg'>Loading saved game…</p>
+      <div className='vh-100 d-flex align-items-center justify-content-center'>
+        <p className='fs-5'>Carico la partita salvata…</p>
       </div>
     )
   }
 
   return (
-    <div className='h-screen flex flex-col'>
+    <div className='vh-100 d-flex flex-column'>
       <StatsBar onHelpClick={() => setShowTutorial(true)} />
 
-      <div className='flex flex-1 overflow-hidden'>
-        <div className='relative shrink-0' style={{ width: sidebarWidth }}>
+      <div className='d-flex flex-grow-1 overflow-hidden'>
+        <div
+          className='position-relative flex-shrink-0'
+          style={{ width: sidebarWidth }}>
           <GuestChatter />
           <div
             onMouseDown={onSidebarResizeStart}
-            className='absolute top-0 right-0 bottom-0 w-1.5 cursor-col-resize z-10 group'>
-            <div className='w-px h-full bg-stone-700 group-hover:bg-stone-500 transition-colors' />
+            className='resize-handle-x position-absolute top-0 end-0 bottom-0'
+            style={{ width: 6, zIndex: 10 }}>
+            <div className='h-100 border-end' />
           </div>
         </div>
-        <div className='flex-1 relative'>
+        <div className='flex-grow-1 position-relative'>
           <IsometricGrid />
           <TileInfo />
         </div>
         <ControlPanel />
       </div>
 
-      <div className='relative shrink-0' style={{ height: bottomHeight }}>
+      <div
+        className='position-relative flex-shrink-0'
+        style={{ height: bottomHeight }}>
         <div
           onMouseDown={onResizeStart}
-          className='absolute top-0 left-0 right-0 h-1.5 cursor-row-resize z-10 group'>
-          <div className='h-px bg-stone-700 group-hover:bg-stone-500 transition-colors' />
-          <div className='mx-auto w-10 h-1 mt-px rounded-full bg-stone-700 group-hover:bg-stone-400 transition-colors' />
+          className='resize-handle-y position-absolute top-0 start-0 end-0'
+          style={{ height: 6, zIndex: 10 }}>
+          <div className='border-top' />
+          <div
+            className='mx-auto rounded-pill bg-secondary'
+            style={{ width: 40, height: 4, marginTop: 1 }}
+          />
         </div>
-        <div className='flex h-full bg-stone-900/95 pt-1.5'>
-          <div className='w-full overflow-hidden'>
+        <div className='d-flex h-100 bg-body-tertiary pt-2'>
+          <div className='w-100 overflow-hidden'>
             <EventLog />
           </div>
         </div>

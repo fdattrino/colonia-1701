@@ -1,26 +1,6 @@
-@import 'tailwindcss';
-
-@theme {
-  --color-grass: #4a7c3f;
-  --color-grass-light: #5d9e4e;
-  --color-water: #3b82c4;
-  --color-water-dark: #2563a0;
-  --color-sand: #d4a853;
-  --color-path: #8b7355;
-  --color-trees: #2d5a27;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
-  font-family:
-    'Segoe UI',
-    system-ui,
-    -apple-system,
-    sans-serif;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -32,4 +12,47 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #57534e;
   border-radius: 3px;
+}
+
+/* Mappa isometrica: effetti al passaggio del mouse non coperti da Bootstrap */
+.iso-tile {
+  position: relative;
+  transition:
+    filter 0.1s,
+    transform 0.1s;
+}
+.iso-tile--buildable {
+  cursor: pointer;
+}
+.iso-tile--buildable:hover {
+  filter: brightness(1.25);
+  transform: translateY(-2px);
+}
+.iso-tile--demolishable {
+  cursor: pointer;
+}
+.iso-tile--demolishable:hover {
+  filter: brightness(0.75);
+}
+.iso-tile--selected {
+  filter: brightness(1.25);
+  transform: translateY(-4px);
+}
+.iso-tile--clickable {
+  cursor: pointer;
+}
+
+.iso-map {
+  cursor: grab;
+}
+.iso-map:active {
+  cursor: grabbing;
+}
+
+/* Maniglie di ridimensionamento dei pannelli */
+.resize-handle-x {
+  cursor: col-resize;
+}
+.resize-handle-y {
+  cursor: row-resize;
 }

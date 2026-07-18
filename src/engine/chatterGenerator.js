@@ -3,143 +3,152 @@ import { useGameStore } from '../store/gameStore'
 const FALLBACK_LINES = {
   'quiet-nature-lover': {
     happy: [
-      'Listen to those birds...',
-      'The lake is so peaceful.',
-      'No phone, no email. Perfect.',
-      'Saw a deer this morning!',
+      'Ascolta gli uccelli del bosco...',
+      'Il fiume è così tranquillo.',
+      'Niente mercati, niente clamore. Perfetto.',
+      'Ho visto un cervo stamattina!',
     ],
     neutral: [
-      "It's nice out here. Quiet.",
-      'Might read by the water later.',
-      'Stars should be great tonight.',
+      'Si sta bene quaggiù. In pace.',
+      'Più tardi vado a leggere in riva al fiume.',
+      'Stanotte le stelle saranno splendide.',
     ],
     annoyed: [
-      'Neighbors are so loud...',
-      'Turn down the music, please.',
-      'Came here for quiet, not a party.',
+      'I vicini fanno troppo chiasso...',
+      'Basta con quei canti, per carità.',
+      'Sono venuto per la pace, non per la sagra.',
     ],
-    excited: ['Spotted a bald eagle!', 'This sunset is unreal.'],
-    tired: ['Long hike. Legs are done.', 'Gonna sleep so well tonight.'],
+    excited: ["Ho avvistato un'aquila!", 'Questo tramonto è un dono del cielo.'],
+    tired: [
+      'Giornata lunga nei campi. Sono distrutto.',
+      'Stanotte dormirò come un sasso.',
+    ],
   },
   'social-party': {
     happy: [
-      'Drinks by the fire, neighbor?',
-      'Met so many cool people here!',
-      'Cards tonight, anyone?',
-      "S'mores. Best night ever.",
+      'Un bicchiere al focolare, vicino?',
+      'Ho conosciuto tanta brava gente qui!',
+      'Una partita a carte stasera?',
+      'Castagne sul fuoco. Che serata.',
     ],
     neutral: [
-      'Any events tonight?',
-      'Need more firewood.',
-      'Should invite the next site over.',
+      "C'è qualche festa stasera?",
+      'Serve altra legna per il fuoco.',
+      'Dovrei invitare i vicini di capanna.',
     ],
     annoyed: [
-      'Dead out here. Where is everyone?',
-      'No Wi-Fi? Seriously?',
-      "Store closed already? It's 8pm!",
+      'Che mortorio. Dove sono tutti?',
+      'Niente taverna? Sul serio?',
+      "L'emporio chiude già al tramonto?",
     ],
     excited: [
-      "Huge bonfire tonight. You're invited!",
-      'Best camping trip ever!',
+      'Gran falò stasera. Siete tutti invitati!',
+      'La miglior traversata della mia vita!',
     ],
     tired: [
-      'Last night was wild. Need coffee.',
-      "Shouldn't have stayed up till 3am.",
+      'Ieri sera abbiamo fatto tardi. Serve una tisana.',
+      "Non dovevo restare alzato fino all'alba.",
     ],
   },
   'budget-backpacker': {
     happy: [
-      'Not bad for the price.',
-      'Hot water in the showers! Score.',
-      'Free firewood? Steal.',
+      'Niente male per il prezzo.',
+      'Acqua fresca al pozzo! Che fortuna.',
+      'Legna gratis? Affare fatto.',
     ],
     neutral: [
-      'It works. Roof over my head.',
-      'Ramen again. Classic.',
-      'Tent is holding up at least.',
+      'Funziona. Un tetto sulla testa.',
+      'Zuppa di nuovo. Un classico.',
+      'La baracca regge, almeno.',
     ],
     annoyed: [
-      'Rip-off for what you get.',
-      'No restroom nearby? Seriously?',
-      'RV people judging my tent.',
+      'Un furto per quello che offrono.',
+      'Nessun pozzo qui vicino? Sul serio?',
+      'Quelli delle case in pietra guardano male la mia baracca.',
     ],
     excited: [
-      'Free pancake breakfast?! Where?!',
-      "Free trail nearby. Let's go!",
+      'Pane gratis in piazza?! Dove?!',
+      'Una strada libera qui vicino. Andiamo!',
     ],
     tired: [
-      'Ground sleeping gets old fast.',
-      '15 miles today. Noodles and bed.',
+      'Dormire per terra stanca presto.',
+      '15 miglia oggi. Zuppa e branda.',
     ],
   },
   'comfort-glamper': {
     happy: [
-      'Shower pressure is solid here.',
-      'Wine under the stars. Perfect.',
-      'Great yoga spot, great view.',
+      'Il bagno pubblico è dignitoso, devo ammettere.',
+      'Vino sotto le stelle. Perfetto.',
+      'Un ottimo posto per passeggiare, che vista.',
     ],
     neutral: [
-      'Rustic. Charming, I guess.',
-      'Do they deliver coffee to sites?',
-      'Mattress pad was worth it.',
+      'Rustico. Pittoresco, suppongo.',
+      'Portano la colazione agli alloggi?',
+      'Il materasso di piume è valso la pena.',
     ],
     annoyed: [
-      'Ant in my setup. Unacceptable.',
-      'Restrooms need a deep clean.',
-      'Fix the noise or I want a refund.',
+      'Una formica nei miei bagagli. Inaccettabile.',
+      'Il bagno pubblico va ripulito a fondo.',
+      'Sistemate quel baccano o rivoglio i miei ducati.',
     ],
     excited: [
-      'Espresso machine in the store!',
-      'This sunset. So Instagrammable.',
+      "Caffè d'importazione all'emporio!",
+      'Questo tramonto. Degno di un quadro.',
     ],
-    tired: ['Need my pillow and eight hours.', 'Nature is exhausting.'],
+    tired: [
+      'Mi servono il mio cuscino e otto ore.',
+      'La vita coloniale è sfiancante.',
+    ],
   },
   'adventure-seeker': {
     happy: [
-      '12-mile trail. Incredible.',
-      'Caught three fish for dinner!',
-      'Rapids upstream are gnarly.',
+      '12 miglia di sentiero. Incredibile.',
+      'Ho pescato tre pesci per cena!',
+      'Le rapide a monte sono selvagge.',
     ],
     neutral: [
-      "Planning tomorrow's route.",
-      'Checking gear for the morning.',
-      'Decent launchpad for trails.',
+      'Preparo la rotta di domani.',
+      "Controllo l'equipaggiamento per l'alba.",
+      'Buona base per le esplorazioni.',
     ],
     annoyed: [
-      'Trails too easy. Need a challenge.',
-      'No mountain biking? Come on.',
-      'Rain again. Three days straight.',
+      'Sentieri troppo facili. Voglio una sfida.',
+      'Niente cavalli da noleggiare? Andiamo.',
+      'Pioggia di nuovo. Tre giorni di fila.',
     ],
     excited: [
-      "Waterfall 2 miles up. Who's in?",
-      'Caves nearby! Saw the trail map.',
+      'Una cascata a 2 miglia. Chi viene?',
+      "Grotte qui vicino! L'ho visto sulla mappa.",
     ],
-    tired: ['Everything hurts. Worth it.', '14-mile day. Sleeping till noon.'],
+    tired: [
+      'Mi fa male tutto. Ne è valsa la pena.',
+      '14 miglia oggi. Dormo fino a mezzogiorno.',
+    ],
   },
   'family-focused': {
     happy: [
-      'Kids love the playground.',
-      "Game night by the fire. That's the stuff.",
-      'Little one caught her first fish!',
-      "Everyone's off their phones!",
+      'I bambini adorano la piazza del villaggio.',
+      'Giochi attorno al focolare. Questa è vita.',
+      'La piccola ha pescato il suo primo pesce!',
+      'Tutti insieme, finalmente!',
     ],
     neutral: [
-      'Gotta find the kids something to do.',
-      'Did we pack sunscreen? Always forget.',
-      'Kids asleep. Adult time.',
+      'Devo trovare qualcosa da far fare ai bambini.',
+      'Abbiamo preso il cappello di paglia? Lo dimentico sempre.',
+      "I bambini dormono. Un po' di pace.",
     ],
     annoyed: [
-      'Playground equipment looks sketchy.',
-      'Too loud for the kids to sleep.',
-      'No family activities? Disappointing.',
+      'I giochi della piazza sembrano malmessi.',
+      'Troppo rumore, i bambini non dormono.',
+      'Niente attività per le famiglie? Che delusione.',
     ],
     excited: [
-      'Kids want to stay another week!',
-      'Scavenger hunt for families tomorrow!',
+      "I bambini vogliono restare un'altra settimana!",
+      'Domani caccia al tesoro per le famiglie!',
     ],
     tired: [
-      'Camping with kids. Send help.',
-      'Three kids, one tent. Nobody slept.',
+      'Viaggiare coi bambini. Mandate rinforzi.',
+      'Tre figli, una capanna. Nessuno ha dormito.',
     ],
   },
 }
@@ -172,66 +181,66 @@ function pick(arr) {
 const WEATHER_SPECIFIC_LINES = {
   rainy: {
     'quiet-nature-lover': [
-      'Rain on the tent. So soothing.',
-      'Love that forest smell after rain.',
-      'Sketching the misty trees.',
+      'La pioggia sul tetto. Che quiete.',
+      "L'odore del bosco dopo la pioggia.",
+      'Disegno gli alberi nella nebbia.',
     ],
     'social-party': [
-      'Board game time! Who has Uno?',
-      'Rain day = nap day.',
-      'Hot chocolate, anyone?',
+      'Tempo di giochi da tavolo! Chi ha i dadi?',
+      'Giorno di pioggia, giorno di riposo.',
+      'Latte caldo e miele, qualcuno?',
     ],
     'budget-backpacker': [
-      'Tent is waterproof. Mostly.',
-      'Sleeping bag and a book till it stops.',
-      'Free shower from the sky.',
+      "La baracca tiene l'acqua. Più o meno.",
+      'Coperta e un libro finché non smette.',
+      'Un bagno gratis dal cielo.',
     ],
     'comfort-glamper': [
-      'Glad I brought the cashmere throw.',
-      'Sheet mask time. Rainy day spa.',
-      'Cozy vibes. Need a latte though.',
+      'Meno male che ho portato lo scialle di lana.',
+      'Giornata di pioggia, giornata di ozio.',
+      'Atmosfera raccolta. Ma servirebbe un caffè.',
     ],
     'adventure-seeker': [
-      'Rain hike! Trails are empty.',
-      'Mud run conditions. Perfect.',
-      "Rain gear on. Let's go.",
+      'Camminata sotto la pioggia! Sentieri deserti.',
+      'Fango perfetto per allenarsi.',
+      'Mantello incerato e si parte.',
     ],
     'family-focused': [
-      'Kids built a blanket fort. Genius.',
-      'Story time. Rain makes sound effects.',
-      'Playing I Spy under the rain fly.',
+      'I bambini hanno fatto un fortino di coperte. Geniale.',
+      'Ora delle storie. La pioggia fa gli effetti sonori.',
+      'Giochiamo a indovinelli sotto il tetto.',
     ],
   },
   stormy: {
     'quiet-nature-lover': [
-      'Thunder in the mountains. Humbling.',
-      'Lightning from the tent. Wow.',
+      'Tuoni sulle montagne. Che spettacolo.',
+      'I lampi visti dalla capanna. Impressionante.',
     ],
     'social-party': [
-      'Scary movie vibes! That thunder!',
-      'All huddled in one tent. Sleepover!',
+      'Che brividi quel tuono!',
+      'Tutti stretti in una capanna. Che nottata!',
     ],
     'budget-backpacker': [
-      'If my tent survives this, I owe it.',
-      'Free entertainment. Socks are soaked.',
+      'Se la baracca regge, le devo tutto.',
+      'Spettacolo gratis. Calze fradice.',
     ],
     'comfort-glamper': [
-      'Did NOT sign up for this.',
-      'Hair products are NOT storm-rated.',
+      'NON è per questo che ho pagato la traversata.',
+      'La mia parrucca non è fatta per le tempeste.',
     ],
     'adventure-seeker': [
-      'NOW this is camping!',
-      'Wind is wild. Tying everything down.',
+      'QUESTA sì che è vita di frontiera!',
+      'Vento selvaggio. Lego tutto ben stretto.',
     ],
     'family-focused': [
-      'Shadow puppets till the storm passes.',
-      'Kids are terrified-thrilled. Mostly thrilled.',
+      'Ombre cinesi finché passa la tempesta.',
+      'I bambini sono spaventati e felici. Più felici.',
     ],
   },
 }
 
 const ACTIONABLE_PATTERNS =
-  /\b(need|where|no |closed|rip-off|broken|fix|missing|dirty|clean|refund|price|expensive|safe|loud|noise|quiet|wifi|wi-fi|restroom|bathroom|shower|playground|store|trail)\b/i
+  /\b(serve|servono|dove|niente|nessun|chiuso|chiude|furto|caro|rott[oa]|malmess|riparat|sistemate|manca|sporc\w*|pulit\w*|ripulit\w*|rimborso|ducati|prezzo|rumore|chiasso|baccano|silenzio|pozzo|bagno|piazza|emporio|magazzino|strada|sentier\w*)\b/i
 
 export function generateChatter(tourist, replyTarget) {
   const weather = useGameStore.getState().weather
@@ -247,6 +256,6 @@ export function generateChatter(tourist, replyTarget) {
   }
 
   const lines = FALLBACK_LINES[tourist.personality]?.[mood]
-  const text = lines ? pick(lines) : "It's nice out here."
+  const text = lines ? pick(lines) : 'Si sta bene quaggiù.'
   return { text, mood, actionable: ACTIONABLE_PATTERNS.test(text) }
 }

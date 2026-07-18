@@ -1,3 +1,4 @@
+import Button from 'react-bootstrap/Button'
 import { useGameStore } from '../../store/gameStore'
 import { WEATHER_LABELS, SEASON_LABELS } from '../../utils/constants'
 
@@ -17,65 +18,60 @@ export function StatsBar({ onHelpClick }) {
 
   const repColor =
     reputation >= 70
-      ? 'text-green-400'
+      ? 'text-success'
       : reputation >= 40
-        ? 'text-yellow-400'
-        : 'text-red-400'
+        ? 'text-warning'
+        : 'text-danger'
 
   return (
-    <div className='flex items-center gap-4 px-4 py-2 bg-stone-900/90 border-b border-stone-700 text-sm'>
-      <div className='flex items-center gap-1.5'>
-        <span className='text-stone-400'>Day</span>
-        <span className='font-bold text-lg tabular-nums'>{day}</span>
-        <span className='text-stone-500 tabular-nums'>
+    <div className='d-flex align-items-center gap-3 px-3 py-2 bg-body-tertiary border-bottom small'>
+      <div className='d-flex align-items-center gap-1'>
+        <span className='text-secondary'>Giorno</span>
+        <span className='fw-bold fs-5'>{day}</span>
+        <span className='text-secondary'>
           {String(hour).padStart(2, '0')}:00
         </span>
       </div>
 
-      <div className='w-px h-6 bg-stone-700' />
+      <div className='vr' />
 
       <div>{SEASON_LABELS[season]}</div>
 
       <div>{WEATHER_LABELS[weather]}</div>
 
-      <div className='w-px h-6 bg-stone-700' />
+      <div className='vr' />
 
-      <div className='flex items-center gap-1'>
-        <span className='text-green-400 font-bold text-lg'>
-          ${money.toLocaleString()}
-        </span>
+      <div className='fw-bold fs-5 text-success'>
+        🪙 {money.toLocaleString()}
       </div>
 
-      <div className='w-px h-6 bg-stone-700' />
+      <div className='vr' />
 
-      <div className='flex items-center gap-1'>
-        <span className='text-stone-400'>Rep</span>
-        <span className={`font-bold ${repColor}`}>{reputation}</span>
-        <span className='text-stone-500'>/100</span>
+      <div className='d-flex align-items-center gap-1'>
+        <span className='text-secondary'>Prestigio</span>
+        <span className={`fw-bold ${repColor}`}>{reputation}</span>
+        <span className='text-secondary'>/100</span>
       </div>
 
-      <div className='w-px h-6 bg-stone-700' />
+      <div className='vr' />
 
-      <div className='flex items-center gap-1.5'>
-        <span className='text-stone-400'>Guests</span>
-        <span className='font-bold text-cyan-400'>{activeTourists}</span>
+      <div className='d-flex align-items-center gap-1'>
+        <span className='text-secondary'>Coloni</span>
+        <span className='fw-bold text-info'>{activeTourists}</span>
         {arrivingTourists > 0 && (
-          <span className='text-stone-500'>(+{arrivingTourists} arriving)</span>
+          <span className='text-secondary'>
+            (+{arrivingTourists} in arrivo)
+          </span>
         )}
       </div>
 
-      <div className='flex-1' />
+      <div className='flex-grow-1' />
 
-      <button
-        onClick={onHelpClick}
-        className='px-2 py-1 rounded text-xs bg-stone-700 text-stone-400 hover:bg-stone-600 hover:text-stone-200 transition-colors'
-        title='How to play'>
-        ? Help
-      </button>
+      <Button size='sm' variant='secondary' onClick={onHelpClick}>
+        ? Aiuto
+      </Button>
 
-      <div className='text-stone-500 font-semibold tracking-wide'>
-        CAMPGROUND TYCOON
-      </div>
+      <div className='text-secondary fw-semibold'>COLONIA 1701</div>
     </div>
   )
 }

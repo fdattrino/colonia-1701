@@ -6,6 +6,7 @@ import { calculateSatisfactionDelta } from './satisfactionCalc'
 import { rollWeather } from './weatherSystem'
 import {
   TICK_INTERVALS,
+  WEATHER_LABELS,
   SEASON_DEMAND_MULTIPLIER,
   ARRIVAL_HOURS,
 } from '../utils/constants'
@@ -79,7 +80,7 @@ async function handleArrival() {
       day,
       hour: state.hour,
       type: 'arrival',
-      message: `${tourist.name} (${tourist.composition}) is looking for a spot`,
+      message: `${tourist.name} (${tourist.composition}) è sbarcato e cerca un alloggio`,
     })
 
     const availablePlots = getAvailablePlots(useGameStore.getState().grid)
@@ -94,7 +95,7 @@ async function handleArrival() {
           day,
           hour: state.hour,
           type: 'arrival',
-          message: `${tourist.name} chose ${STRUCTURE_LABELS[plot.type]} — "${decision.reasoning}"`,
+          message: `${tourist.name} ha scelto: ${STRUCTURE_LABELS[plot.type]} — "${decision.reasoning}"`,
         })
       }
     } else {
@@ -103,7 +104,7 @@ async function handleArrival() {
         day,
         hour: state.hour,
         type: 'departure',
-        message: `${tourist.name} left without booking — "${decision.reasoning}"`,
+        message: `${tourist.name} è ripartito con la nave — "${decision.reasoning}"`,
       })
     }
   }
@@ -143,7 +144,7 @@ async function handleDepartures() {
       day,
       hour: state.hour,
       type: 'review',
-      message: `${tourist.name} left a ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)} review: "${review.text}"`,
+      message: `${tourist.name} ha spedito una lettera in patria ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}: "${review.text}"`,
     })
 
     // Update reputation based on reviews
@@ -206,7 +207,7 @@ function handleMaintenance() {
       day: state.day,
       hour: state.hour,
       type: 'system',
-      message: `Daily maintenance: -$${totalMaintenance}`,
+      message: `Manutenzione giornaliera: -${totalMaintenance} 🪙`,
     })
   }
 }
@@ -231,7 +232,7 @@ function handleNightlyRevenue() {
       day: state.day,
       hour: state.hour,
       type: 'system',
-      message: `Nightly revenue: +$${revenue}`,
+      message: `Affitti della notte: +${revenue} 🪙`,
     })
   }
 }
@@ -331,7 +332,7 @@ function processTick() {
       day: newDay,
       hour: 0,
       type: 'weather',
-      message: `Day ${newDay} begins. Weather: ${newWeather}`,
+      message: `Inizia il giorno ${newDay}. Tempo: ${WEATHER_LABELS[newWeather]}`,
     })
   }
 

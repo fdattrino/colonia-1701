@@ -1,12 +1,12 @@
 import { useGameStore } from '../../store/gameStore'
 
 const TYPE_COLORS = {
-  arrival: 'text-cyan-400',
-  departure: 'text-amber-400',
-  review: 'text-purple-400',
-  event: 'text-green-400',
-  system: 'text-stone-400',
-  weather: 'text-sky-400',
+  arrival: 'text-info',
+  departure: 'text-warning',
+  review: 'text-primary',
+  event: 'text-success',
+  system: 'text-secondary',
+  weather: 'text-info',
 }
 
 const TYPE_ICONS = {
@@ -22,25 +22,25 @@ export function EventLog() {
   const log = useGameStore((s) => s.log)
 
   return (
-    <div className='flex flex-col h-full'>
-      <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide px-3 py-1.5 border-b border-stone-700'>
-        Events
-      </h3>
-      <div className='flex-1 overflow-y-auto px-3 py-1'>
+    <div className='d-flex flex-column h-100'>
+      <h6 className='text-secondary text-uppercase small fw-semibold px-3 py-1 border-bottom mb-0'>
+        Cronaca della colonia
+      </h6>
+      <div className='flex-grow-1 overflow-y-auto px-3 py-1'>
         {log.length === 0 ? (
-          <p className='text-xs text-stone-500 py-2'>
-            Start the simulation to see events...
+          <p className='small text-secondary py-2'>
+            Avvia la simulazione per leggere la cronaca...
           </p>
         ) : (
           log.map((entry) => (
-            <div key={entry.id} className='flex gap-1.5 py-0.5 text-xs'>
-              <span className='text-stone-600 tabular-nums shrink-0'>
-                D{entry.day} {String(entry.hour).padStart(2, '0')}:00
+            <div key={entry.id} className='d-flex gap-2 py-0 small'>
+              <span className='text-secondary flex-shrink-0 font-monospace'>
+                G{entry.day} {String(entry.hour).padStart(2, '0')}:00
               </span>
-              <span className={`shrink-0 ${TYPE_COLORS[entry.type]}`}>
+              <span className={`flex-shrink-0 ${TYPE_COLORS[entry.type]}`}>
                 {TYPE_ICONS[entry.type]}
               </span>
-              <span className='text-stone-300'>{entry.message}</span>
+              <span>{entry.message}</span>
             </div>
           ))
         )}

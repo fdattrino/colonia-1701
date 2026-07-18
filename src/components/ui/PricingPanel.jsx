@@ -1,3 +1,4 @@
+import Button from 'react-bootstrap/Button'
 import { useGameStore } from '../../store/gameStore'
 import { PLOT_TYPES, STRUCTURE_LABELS } from '../../store/constants'
 
@@ -6,24 +7,28 @@ function PriceRow({ plotType }) {
   const setPrice = useGameStore((s) => s.setPrice)
 
   return (
-    <div className='flex items-center justify-between gap-2'>
-      <span className='text-xs text-stone-300'>
-        {STRUCTURE_LABELS[plotType]}
-      </span>
-      <div className='flex items-center gap-1'>
-        <button
-          onClick={() => setPrice(plotType, price - 5)}
-          className='w-5 h-5 rounded bg-stone-700 text-stone-300 text-xs hover:bg-stone-600 flex items-center justify-center'>
+    <div className='d-flex align-items-center justify-content-between gap-2'>
+      <span className='small'>{STRUCTURE_LABELS[plotType]}</span>
+      <div className='d-flex align-items-center gap-1'>
+        <Button
+          size='sm'
+          variant='secondary'
+          className='px-2 py-0'
+          onClick={() => setPrice(plotType, price - 5)}>
           -
-        </button>
-        <span className='text-xs font-bold text-green-400 w-8 text-center'>
-          ${price}
+        </Button>
+        <span
+          className='small fw-bold text-success text-center'
+          style={{ minWidth: '3rem' }}>
+          🪙 {price}
         </span>
-        <button
-          onClick={() => setPrice(plotType, price + 5)}
-          className='w-5 h-5 rounded bg-stone-700 text-stone-300 text-xs hover:bg-stone-600 flex items-center justify-center'>
+        <Button
+          size='sm'
+          variant='secondary'
+          className='px-2 py-0'
+          onClick={() => setPrice(plotType, price + 5)}>
           +
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -32,10 +37,10 @@ function PriceRow({ plotType }) {
 export function PricingPanel() {
   return (
     <div>
-      <h3 className='text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2'>
-        Nightly Rates
-      </h3>
-      <div className='flex flex-col gap-1.5'>
+      <h6 className='text-secondary text-uppercase small fw-semibold mb-2'>
+        Affitti per notte
+      </h6>
+      <div className='d-flex flex-column gap-2'>
         {PLOT_TYPES.map((type) => (
           <PriceRow key={type} plotType={type} />
         ))}

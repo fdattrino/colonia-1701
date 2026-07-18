@@ -1,119 +1,122 @@
 import { useState } from 'react'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 const STEPS = [
   {
-    title: 'Welcome to Campground Tycoon',
-    content: `You own a campground. Your job is to build it up, attract tourists, and keep them happy.
+    title: 'Benvenuto a Colonia 1701',
+    content: `Sei il governatore di una giovane colonia d'oltremare, nell'anno 1701. Il tuo compito è farla crescere, accogliere i coloni che sbarcano dalle navi e tenerli soddisfatti.
 
-AI-powered tourists arrive on their own. They pick a spot, stay for a while, and leave a review. Your campground's reputation depends on their experience.
+I coloni arrivano da soli. Scelgono un alloggio, si fermano per un po' e poi spediscono una lettera in patria. Il prestigio della colonia dipende dalla loro esperienza.
 
-Let's see how to play.`,
-    icon: '🏕️',
+Vediamo come si gioca.`,
+    icon: '⛵',
   },
   {
-    title: 'Build Your Campground',
-    content: `Use the build panel on the right to place camping plots and facilities on the map.
+    title: 'Costruisci gli alloggi',
+    content: `Usa il pannello di costruzione a destra per piazzare alloggi e servizi sulla mappa.
 
-**Plots** are where tourists stay:
-- **Small Tent** ($200) — cheap, attracts backpackers
-- **Large Tent** ($400) — fits families
-- **Campervan** ($600) — for road trippers
-- **RV Hookup** ($1000) — premium spots with electricity
+Gli **alloggi** sono dove vivono i coloni:
+- **Baracca di legno** (🪙 200) — economica, per i pionieri squattrinati
+- **Capanna del pioniere** (🪙 400) — adatta alle famiglie
+- **Casa in legno** (🪙 600) — per chi è già sistemato
+- **Casa in pietra** (🪙 1000) — dimora di pregio, vicina al pozzo
 
-Click a plot type, then click on any green grass tile to place it. You can't build on water, trees, or paths.`,
+Scegli un tipo di alloggio, poi clicca su una casella di prato per costruirlo. Non si può costruire sul fiume, nel bosco o sulla strada.`,
     icon: '🔨',
   },
   {
-    title: 'Add Facilities',
-    content: `Tourists care about what's nearby. Facilities boost satisfaction:
+    title: 'Aggiungi i servizi',
+    content: `Ai coloni importa cosa c'è nei dintorni. I servizi aumentano la soddisfazione:
 
-- **Restroom** — essential. Without one nearby, guests get unhappy fast
-- **Shower** — comfort-seekers and families love these
-- **Fire Pit** — social campers gather here
-- **Playground** — families with kids need this
-- **Trail Head** — nature lovers and adventurers want trails
-- **Camp Store** — a convenience everyone appreciates
-- **Lake Access** — build a dock near water for nature lovers
+- **Pozzo** — essenziale. Senza acqua vicina, i coloni si scontentano in fretta
+- **Bagno pubblico** — i nobili e le famiglie lo apprezzano molto
+- **Focolare comune** — i più socievoli si ritrovano qui
+- **Piazza del villaggio** — le famiglie con bambini ne hanno bisogno
+- **Imbocco della strada** — contadini ed esploratori vogliono muoversi
+- **Emporio** — una comodità che tutti apprezzano
+- **Accesso al fiume** — un molo sull'acqua per pescare e lavare
 
-Place facilities near your plots. Proximity matters — tourists check what's within 3 tiles of their spot.`,
-    icon: '🚿',
+Piazza i servizi vicino agli alloggi. La vicinanza conta: i coloni guardano cosa c'è entro 3 caselle da casa loro.`,
+    icon: '⛲',
   },
   {
-    title: 'Set Your Prices',
-    content: `Use the **Nightly Rates** section to adjust pricing for each plot type.
+    title: 'Fissa gli affitti',
+    content: `Usa la sezione **Affitti per notte** per regolare il prezzo di ogni tipo di alloggio.
 
-Pricing is a balancing act:
-- Too high? Budget travelers leave without booking
-- Too low? You won't cover maintenance costs
-- Just right? High occupancy and happy guests
+Il prezzo è un equilibrio delicato:
+- Troppo alto? I coloni poveri ripartono con la nave
+- Troppo basso? Non copri i costi di manutenzione
+- Giusto? Alloggi pieni e coloni contenti
 
-Each tourist has a budget. A solo backpacker might have $30/night. A glamping couple might pay $150. Watch who's arriving and adjust.`,
-    icon: '💰',
+Ogni colono ha una borsa. Un pioniere squattrinato può pagare 30 monete a notte. Un nobile anche 150. Guarda chi sbarca e regolati.`,
+    icon: '🪙',
   },
   {
-    title: 'The AI Tourists',
-    content: `Every morning, new tourist groups arrive. Each one is unique:
+    title: 'I coloni',
+    content: `Ogni mattina sbarcano nuovi gruppi di coloni. Ognuno è diverso:
 
-- **Quiet Nature Lover** — wants water, trails, and privacy
-- **Social Party Type** — wants fire pits and neighbors
-- **Budget Backpacker** — price-sensitive, low expectations
-- **Comfort Glamper** — needs showers, restrooms, and a store
-- **Adventure Seeker** — wants trails and water access
-- **Family Focused** — needs playgrounds and clean restrooms
+- **Contadino solitario** — vuole il fiume, la strada e la pace
+- **Mercante socievole** — vuole il focolare e i vicini
+- **Pioniere squattrinato** — attento al prezzo, poche pretese
+- **Nobile in cerca di comfort** — esige bagno pubblico, pozzo ed emporio
+- **Esploratore avventuriero** — vuole strade e accesso al fiume
+- **Capofamiglia** — cerca la piazza e un pozzo pulito
 
-Tourists evaluate your available plots. If nothing fits their preferences or budget, they leave — and that's lost revenue.`,
-    icon: '🧑‍🤝‍🧑',
+I coloni valutano gli alloggi liberi. Se niente rispetta le loro preferenze o la loro borsa, ripartono — e sono monete perse.`,
+    icon: '🧑‍🌾',
   },
   {
-    title: 'Satisfaction & Reviews',
-    content: `Staying tourists gain or lose satisfaction every few hours based on:
+    title: 'Soddisfazione e lettere',
+    content: `I coloni che restano guadagnano o perdono soddisfazione ogni poche ore in base a:
 
-- **Nearby facilities** — restrooms are critical
-- **Neighbors** — quiet types hate crowds, social types love them
-- **Weather** — rain lowers mood, perfect days boost it
-- **Price fairness** — overcharging hurts satisfaction
+- **Servizi vicini** — il pozzo è irrinunciabile
+- **Vicinato** — i solitari odiano la folla, i socievoli la cercano
+- **Meteo** — la pioggia abbatte l'umore, le belle giornate lo sollevano
+- **Prezzo onesto** — affitti esosi rovinano la soddisfazione
 
-When tourists leave, they write a review. Reviews determine your reputation score (0–100). Higher reputation attracts more visitors and lets you charge more.`,
-    icon: '⭐',
+Quando un colono riparte, spedisce una lettera in patria. Le lettere determinano il prestigio della colonia (0–100). Più prestigio significa più navi in arrivo e affitti più alti.`,
+    icon: '📜',
   },
   {
-    title: 'Seasons & Weather',
-    content: `Time passes automatically. Every 30 days, the season changes:
+    title: 'Stagioni e meteo',
+    content: `Il tempo scorre da solo. Ogni 30 giorni cambia la stagione:
 
-- **Summer** — peak demand. Families everywhere. Charge more.
-- **Fall** — nature lovers arrive. Quieter, fewer guests.
-- **Winter** — slow season. Discount or lose money.
-- **Spring** — demand picks up again.
+- **Estate** — arrivi al massimo. Famiglie ovunque. Alza i prezzi.
+- **Autunno** — arrivano i contadini. Più quiete, meno sbarchi.
+- **Inverno** — stagione morta. Sconta o perdi monete.
+- **Primavera** — le navi ricominciano ad arrivare.
 
-Weather changes daily. Storms hurt satisfaction. Perfect weather boosts it. You can't control the weather, but you can prepare for it with good facilities.`,
+Il meteo cambia ogni giorno. Le tempeste abbattono la soddisfazione, le giornate splendide la sollevano. Il meteo non si comanda, ma con buoni servizi si affronta.`,
     icon: '🌦️',
   },
   {
-    title: 'Speed Controls & Saving',
-    content: `Use the speed buttons at the top of the control panel:
+    title: 'Velocità e salvataggio',
+    content: `Usa i pulsanti della velocità in cima al pannello di controllo:
 
-- **Pause** — stop time to plan and build
-- **1x** — normal speed, watch events unfold
-- **2x** — faster for when things are running smoothly
-- **5x** — fast-forward through quiet periods
+- **Pausa** — ferma il tempo per pianificare e costruire
+- **1x** — velocità normale, osserva gli eventi
+- **2x** — più veloce, quando tutto fila liscio
+- **5x** — avanti tutta nei periodi tranquilli
 
-The game autosaves at the start of each new day. You can also manually save and load using the buttons below the speed controls.`,
+La partita si salva da sola all'inizio di ogni giornata. Puoi anche salvare e caricare a mano con i pulsanti sotto i controlli di velocità.`,
     icon: '⏩',
   },
   {
-    title: 'Tips for Success',
-    content: `A few things to keep in mind:
+    title: 'Consigli per il governatore',
+    content: `Qualche cosa da tenere a mente:
 
-1. **Always build a restroom first** — tourists hate not having one
-2. **Place plots near facilities** — proximity matters
-3. **Keep quiet plots away from party spots** — nature lovers and party types don't mix
-4. **Watch the event log** — it tells you why tourists leave
-5. **Start small** — build 3-4 plots, see what works, then expand
-6. **Match the season** — add playgrounds before summer, trails before fall
+1. **Costruisci subito un pozzo** — i coloni non ne fanno a meno
+2. **Metti gli alloggi vicino ai servizi** — la vicinanza conta
+3. **Tieni le case tranquille lontane dal focolare** — solitari e festaioli non vanno d'accordo
+4. **Leggi la cronaca della colonia** — ti dice perché i coloni ripartono
+5. **Parti in piccolo** — 3-4 alloggi, vedi cosa funziona, poi allarga
+6. **Segui le stagioni** — piazze prima dell'estate, strade prima dell'autunno
 
-You start with $5,000. Spend wisely. Each plot earns revenue every night, but maintenance costs add up.
+Parti con 5.000 monete d'oro. Spendile con giudizio. Ogni alloggio rende ogni notte, ma la manutenzione si accumula.
 
-Have fun managing your campground!`,
+Buon governo, e prospera la colonia!`,
     icon: '💡',
   },
 ]
@@ -124,82 +127,68 @@ export function Tutorial({ onClose }) {
   const isLast = step === STEPS.length - 1
 
   return (
-    <div className='fixed inset-0 z-100 flex items-center justify-center bg-black/70'>
-      <div className='bg-stone-800 border border-stone-600 rounded-xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden'>
-        {/* Header */}
-        <div className='flex items-center gap-3 px-6 pt-5 pb-3'>
-          <span className='text-3xl'>{current.icon}</span>
-          <h2 className='text-lg font-bold text-stone-100'>{current.title}</h2>
-        </div>
+    <Modal show centered onHide={onClose} backdrop='static'>
+      <Modal.Header>
+        <Modal.Title className='d-flex align-items-center gap-2 fs-5'>
+          <span className='fs-3'>{current.icon}</span>
+          {current.title}
+        </Modal.Title>
+      </Modal.Header>
 
-        {/* Step indicator */}
-        <div className='flex gap-1 px-6 pb-3'>
-          {STEPS.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full transition-colors ${
-                i <= step ? 'bg-amber-500' : 'bg-stone-600'
-              }`}
-            />
-          ))}
-        </div>
+      <ProgressBar
+        now={((step + 1) / STEPS.length) * 100}
+        variant='warning'
+        style={{ height: '4px' }}
+        className='rounded-0'
+      />
 
-        {/* Content */}
-        <div className='px-6 pb-5 text-sm text-stone-300 leading-relaxed max-h-[50vh] overflow-y-auto'>
-          {current.content.split('\n\n').map((paragraph, i) => (
-            <p key={i} className='mb-3 last:mb-0'>
-              {paragraph.split('\n').map((line, j) => {
-                const formatted = line.replace(
-                  /\*\*(.+?)\*\*/g,
-                  '<strong class="text-stone-100 font-semibold">$1</strong>'
-                )
-                return (
-                  <span key={j}>
-                    {j > 0 && <br />}
-                    <span dangerouslySetInnerHTML={{ __html: formatted }} />
-                  </span>
-                )
-              })}
-            </p>
-          ))}
-        </div>
+      <Modal.Body
+        className='small overflow-y-auto'
+        style={{ maxHeight: '50vh' }}>
+        {current.content.split('\n\n').map((paragraph, i) => (
+          <p key={i} className='mb-3'>
+            {paragraph.split('\n').map((line, j) => {
+              const formatted = line.replace(
+                /\*\*(.+?)\*\*/g,
+                '<strong>$1</strong>'
+              )
+              return (
+                <span key={j}>
+                  {j > 0 && <br />}
+                  <span dangerouslySetInnerHTML={{ __html: formatted }} />
+                </span>
+              )
+            })}
+          </p>
+        ))}
+      </Modal.Body>
 
-        {/* Footer */}
-        <div className='flex items-center justify-between px-6 py-4 border-t border-stone-700 bg-stone-800/50'>
-          <span className='text-xs text-stone-500'>
-            {step + 1} of {STEPS.length}
-          </span>
-          <div className='flex gap-2'>
-            {step > 0 && (
-              <button
-                onClick={() => setStep(step - 1)}
-                className='px-4 py-1.5 rounded text-sm bg-stone-700 text-stone-300 hover:bg-stone-600 transition-colors'>
-                Back
-              </button>
-            )}
-            {isLast ? (
-              <button
-                onClick={onClose}
-                className='px-4 py-1.5 rounded text-sm bg-amber-500 text-stone-900 font-semibold hover:bg-amber-400 transition-colors'>
-                Start Playing
-              </button>
-            ) : (
-              <button
-                onClick={() => setStep(step + 1)}
-                className='px-4 py-1.5 rounded text-sm bg-amber-500 text-stone-900 font-semibold hover:bg-amber-400 transition-colors'>
-                Next
-              </button>
-            )}
-            {!isLast && (
-              <button
-                onClick={onClose}
-                className='px-4 py-1.5 rounded text-sm text-stone-500 hover:text-stone-300 transition-colors'>
-                Skip
-              </button>
-            )}
-          </div>
+      <Modal.Footer className='justify-content-between'>
+        <span className='small text-secondary'>
+          {step + 1} di {STEPS.length}
+        </span>
+        <div className='d-flex gap-2'>
+          {step > 0 && (
+            <Button variant='secondary' onClick={() => setStep(step - 1)}>
+              Indietro
+            </Button>
+          )}
+          {isLast ? (
+            <Button variant='warning' onClick={onClose}>
+              Inizia a governare
+            </Button>
+          ) : (
+            <Button variant='warning' onClick={() => setStep(step + 1)}>
+              Avanti
+            </Button>
+          )}
+          {!isLast && (
+            <Button variant='link' className='text-secondary' onClick={onClose}>
+              Salta
+            </Button>
+          )}
         </div>
-      </div>
-    </div>
+      </Modal.Footer>
+    </Modal>
   )
 }

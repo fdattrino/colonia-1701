@@ -148,3 +148,8 @@ Questo sostituisce `src/db/database.ts` (Dexie) con un modulo client
 - Il passaggio Dexie → Express/SQLite è il pezzo più "vero" del tuo metodo
   di conversione e vale la pena farlo con calma, testando con curl prima di
   toccare l'interfaccia (Fase 3 del metodo).
+- `public/sprites.png` (spritesheet 1376×768 del tema campeggio) non è più
+  collegato a nulla: il file che lo usava (`SpriteSheet.jsx`) è stato
+  eliminato perché mai importato — la grafica in gioco è disegnata da
+  `TileSprites.jsx` come SVG inline. Il PNG è tenuto come riferimento
+  tecnico per l'eventuale Fase 5 (rifinitura grafica a tema Colonia 1701).

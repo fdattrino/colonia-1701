@@ -106,14 +106,14 @@ export function IsometricGrid() {
   return (
     <div
       ref={containerRef}
-      className='relative w-full h-full overflow-hidden bg-stone-800 cursor-grab active:cursor-grabbing'
+      className='iso-map position-relative w-100 h-100 overflow-hidden bg-body-secondary'
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onWheel={handleWheel}>
       <div
-        className='absolute'
+        className='position-absolute'
         style={{
           transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
           transformOrigin: '0 0',
@@ -140,7 +140,7 @@ export function IsometricGrid() {
           return (
             <div
               key={`${tile.x}-${tile.y}`}
-              className='absolute'
+              className='position-absolute'
               style={{
                 left: screenX,
                 top: screenY,
@@ -149,17 +149,11 @@ export function IsometricGrid() {
               }}
               onClick={() => handleTileClick(tile)}>
               <div
-                className={`
-                relative transition-all duration-100
-                ${canBuild ? 'cursor-pointer hover:brightness-125 hover:-translate-y-0.5' : ''}
-                ${canDemolish ? 'cursor-pointer hover:brightness-75' : ''}
-                ${isSelected ? 'brightness-125 -translate-y-1' : ''}
-                ${!buildMode && tile.structure ? 'cursor-pointer' : ''}
-              `}>
+                className={`iso-tile ${canBuild ? 'iso-tile--buildable' : ''} ${canDemolish ? 'iso-tile--demolishable' : ''} ${isSelected ? 'iso-tile--selected' : ''} ${!buildMode && tile.structure ? 'iso-tile--clickable' : ''}`}>
                 <TerrainSprite terrain={tile.terrain} />
                 {tile.structure && (
                   <div
-                    className='absolute'
+                    className='position-absolute'
                     style={{
                       left: 0,
                       bottom: -4,
@@ -172,14 +166,14 @@ export function IsometricGrid() {
                 )}
                 {occupantTourist && (
                   <div
-                    className='absolute'
+                    className='position-absolute'
                     style={{ left: TILE_W / 2 - 6, bottom: TILE_H - 2 }}>
                     <TouristSprite personality={occupantTourist.personality} />
                   </div>
                 )}
                 {isSelected && (
                   <div
-                    className='absolute inset-0 pointer-events-none'
+                    className='position-absolute top-0 start-0 end-0 bottom-0 pe-none'
                     style={{ top: tile.structure ? -20 : 0 }}>
                     <svg
                       width={TILE_W}
@@ -201,8 +195,11 @@ export function IsometricGrid() {
         })}
       </div>
 
-      <div className='absolute bottom-2 left-2 text-xs text-stone-500 select-none'>
-        Drag to pan | Scroll to zoom | {gridWidth}x{gridHeight} grid
+      <div
+        className='position-absolute small text-secondary user-select-none'
+        style={{ bottom: 8, left: 8 }}>
+        Trascina per spostarti | Rotella per lo zoom | mappa {gridWidth}x
+        {gridHeight}
       </div>
     </div>
   )
