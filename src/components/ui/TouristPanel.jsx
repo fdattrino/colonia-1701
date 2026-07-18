@@ -1,6 +1,6 @@
 import { useGameStore } from '../../store/gameStore'
 
-const PERSONALITY_LABELS: Record<string, string> = {
+const PERSONALITY_LABELS = {
   'quiet-nature-lover': '🌿 Nature Lover',
   'social-party': '🎉 Social',
   'budget-backpacker': '🎒 Backpacker',

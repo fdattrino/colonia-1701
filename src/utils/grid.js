@@ -1,38 +1,30 @@
-import type { Tile, TerrainType } from '../store/types'
-
 export const TILE_W = 64
 export const TILE_H = 32
 
-export function gridToScreen(
-  x: number,
-  y: number
-): { screenX: number; screenY: number } {
+export function gridToScreen(x, y) {
   return {
     screenX: (x - y) * (TILE_W / 2),
     screenY: (x + y) * (TILE_H / 2),
   }
 }
 
-export function screenToGrid(
-  screenX: number,
-  screenY: number
-): { x: number; y: number } {
+export function screenToGrid(screenX, screenY) {
   const x = (screenX / (TILE_W / 2) + screenY / (TILE_H / 2)) / 2
   const y = (screenY / (TILE_H / 2) - screenX / (TILE_W / 2)) / 2
   return { x: Math.round(x), y: Math.round(y) }
 }
 
-export function generateInitialGrid(width: number, height: number): Tile[][] {
-  const grid: Tile[][] = []
+export function generateInitialGrid(width, height) {
+  const grid = []
   const midX = Math.floor(width / 2)
   const midY = Math.floor(height / 2)
   const entranceX = midX
   const entranceY = height - 1
 
   for (let y = 0; y < height; y++) {
-    const row: Tile[] = []
+    const row = []
     for (let x = 0; x < width; x++) {
-      let terrain: TerrainType = 'grass'
+      let terrain = 'grass'
 
       // Lake in the top-right area
       if (x >= width - 4 && y <= 3) {
@@ -85,7 +77,7 @@ export function generateInitialGrid(width: number, height: number): Tile[][] {
   return grid
 }
 
-export function getGridBounds(width: number, height: number) {
+export function getGridBounds(width, height) {
   const topLeft = gridToScreen(0, height - 1)
   const topRight = gridToScreen(width - 1, 0)
   const bottomLeft = gridToScreen(0, 0)

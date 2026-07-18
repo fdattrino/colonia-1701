@@ -1,15 +1,7 @@
-import type { TerrainType, StructureType } from '../../store/types'
-
 const TILE_W = 64
 const TILE_H = 32
 
-function IsoDiamond({
-  fill,
-  stroke = '#0002',
-}: {
-  fill: string
-  stroke?: string
-}) {
+function IsoDiamond({ fill, stroke = '#0002' }) {
   return (
     <polygon
       points={`${TILE_W / 2},0 ${TILE_W},${TILE_H / 2} ${TILE_W / 2},${TILE_H} 0,${TILE_H / 2}`}
@@ -20,7 +12,7 @@ function IsoDiamond({
   )
 }
 
-export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
+export function TerrainSprite({ terrain }) {
   switch (terrain) {
     case 'grass':
       return (
@@ -54,6 +46,7 @@ export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
               stroke='#5ba0e0'
               strokeWidth={1.5}
             />
+
             <line
               x1={34}
               y1={15}
@@ -62,6 +55,7 @@ export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
               stroke='#5ba0e0'
               strokeWidth={1.5}
             />
+
             <line
               x1={26}
               y1={17}
@@ -127,13 +121,7 @@ export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
   }
 }
 
-export function StructureSprite({
-  type,
-  occupied,
-}: {
-  type: StructureType
-  occupied?: boolean
-}) {
+export function StructureSprite({ type, occupied }) {
   switch (type) {
     case 'tent-small':
       return (
@@ -150,10 +138,12 @@ export function StructureSprite({
               points='14,0 0,18 28,18'
               fill={occupied ? '#e07040' : '#d4944a'}
             />
+
             <polygon
               points='14,0 14,18 28,18'
               fill={occupied ? '#c05030' : '#b87a3a'}
             />
+
             <rect
               x={11}
               y={12}
@@ -189,10 +179,12 @@ export function StructureSprite({
               points='20,0 0,22 40,22'
               fill={occupied ? '#3a7acc' : '#6a8caa'}
             />
+
             <polygon
               points='20,0 20,22 40,22'
               fill={occupied ? '#2a6abb' : '#5a7c9a'}
             />
+
             <rect
               x={15}
               y={14}
@@ -200,6 +192,7 @@ export function StructureSprite({
               height={8}
               fill={occupied ? '#1a5aaa' : '#4a6c8a'}
             />
+
             <line x1={20} y1={0} x2={20} y2={3} stroke='#555' strokeWidth={2} />
           </g>
           {occupied && (
@@ -233,6 +226,7 @@ export function StructureSprite({
               rx={2}
               fill={occupied ? '#e8e8e8' : '#c0c0c0'}
             />
+
             <rect
               x={0}
               y={4}
@@ -240,6 +234,7 @@ export function StructureSprite({
               height={4}
               fill={occupied ? '#cc4444' : '#999'}
             />
+
             <rect x={28} y={8} width={6} height={6} fill='#88ccee' />
             <rect x={4} y={10} width={5} height={5} fill='#88ccee' />
             <rect x={12} y={10} width={5} height={5} fill='#88ccee' />
@@ -267,6 +262,7 @@ export function StructureSprite({
               rx={2}
               fill={occupied ? '#f0f0e8' : '#c8c8c0'}
             />
+
             <rect
               x={0}
               y={8}
@@ -274,6 +270,7 @@ export function StructureSprite({
               height={5}
               fill={occupied ? '#2266aa' : '#888'}
             />
+
             <rect x={32} y={12} width={6} height={6} fill='#88ccee' />
             <rect x={4} y={14} width={6} height={5} fill='#88ccee' />
             <rect x={14} y={14} width={6} height={5} fill='#88ccee' />
@@ -334,6 +331,7 @@ export function StructureSprite({
               stroke='#44aaff'
               strokeWidth={1}
             />
+
             <line
               x1={16}
               y1={5}
@@ -365,6 +363,7 @@ export function StructureSprite({
               stroke='#444'
               strokeWidth={1}
             />
+
             <ellipse cx={10} cy={14} rx={7} ry={3} fill='#333' />
             {/* Fire */}
             <polygon points='10,2 6,12 14,12' fill='#ff6600' />
@@ -437,6 +436,7 @@ export function StructureSprite({
               stroke='#888'
               strokeWidth={2}
             />
+
             <line x1={8} y1={0} x2={24} y2={0} stroke='#888' strokeWidth={2} />
             {/* Swings */}
             <line
@@ -447,6 +447,7 @@ export function StructureSprite({
               stroke='#666'
               strokeWidth={1}
             />
+
             <rect x={9} y={14} width={4} height={2} fill='#cc4444' />
             <line
               x1={19}
@@ -456,6 +457,7 @@ export function StructureSprite({
               stroke='#666'
               strokeWidth={1}
             />
+
             <rect x={19} y={14} width={4} height={2} fill='#4444cc' />
           </g>
         </svg>
@@ -537,6 +539,7 @@ export function StructureSprite({
               stroke='#5a3a1e'
               strokeWidth={1}
             />
+
             <line
               x1={36}
               y1={7}
@@ -545,6 +548,7 @@ export function StructureSprite({
               stroke='#5a3a1e'
               strokeWidth={1}
             />
+
             <rect x={14} y={12} width={24} height={10} rx={1} fill='#d4a853' />
             <rect x={14} y={12} width={24} height={2} fill='#c49843' />
             <text
@@ -562,8 +566,8 @@ export function StructureSprite({
   }
 }
 
-export function TouristSprite({ personality }: { personality?: string }) {
-  const colors: Record<string, string> = {
+export function TouristSprite({ personality }) {
+  const colors = {
     'quiet-nature-lover': '#228833',
     'social-party': '#ee4444',
     'budget-backpacker': '#888844',

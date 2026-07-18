@@ -1,11 +1,10 @@
 import { useGameStore } from '../../store/gameStore'
-import type { Speed } from '../../store/types'
 
 export function SpeedControls() {
   const speed = useGameStore((s) => s.speed)
   const setSpeed = useGameStore((s) => s.setSpeed)
 
-  const speeds: { value: Speed; label: string }[] = [
+  const speeds = [
     { value: 0, label: '⏸' },
     { value: 1, label: '1x' },
     { value: 2, label: '2x' },

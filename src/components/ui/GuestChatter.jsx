@@ -1,7 +1,6 @@
 import { useGameStore } from '../../store/gameStore'
-import type { ChatterMood, Personality } from '../../store/types'
 
-const MOOD_EMOJI: Record<ChatterMood, string> = {
+const MOOD_EMOJI = {
   happy: '😊',
   neutral: '😐',
   annoyed: '😤',
@@ -9,7 +8,7 @@ const MOOD_EMOJI: Record<ChatterMood, string> = {
   tired: '😴',
 }
 
-const PERSONALITY_COLOR: Record<Personality, string> = {
+const PERSONALITY_COLOR = {
   'quiet-nature-lover': 'text-green-400',
   'social-party': 'text-red-400',
   'budget-backpacker': 'text-yellow-500',
@@ -18,7 +17,7 @@ const PERSONALITY_COLOR: Record<Personality, string> = {
   'family-focused': 'text-cyan-400',
 }
 
-const PERSONALITY_TAG: Record<Personality, string> = {
+const PERSONALITY_TAG = {
   'quiet-nature-lover': '🌿',
   'social-party': '🎉',
   'budget-backpacker': '🎒',

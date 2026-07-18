@@ -1,19 +1,6 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
-import type {
-  GameState,
-  Tile,
-  StructureType,
-  PlotType,
-  Speed,
-  TouristGroup,
-  Review,
-  LogEntry,
-  ChatterMessage,
-  Weather,
-  Season,
-} from './types'
-import { BUILD_COSTS, DEFAULT_PRICING, isPlotType } from './types'
+import { BUILD_COSTS, DEFAULT_PRICING } from './constants'
 import { generateInitialGrid } from '../utils/grid'
 import {
   GRID_WIDTH,
@@ -23,30 +10,7 @@ import {
 } from '../utils/constants'
 import { saveGame, loadGame } from '../db/database'
 
-interface GameActions {
-  setBuildMode: (mode: StructureType | 'demolish' | null) => void
-  selectTile: (pos: { x: number; y: number } | null) => void
-  placeStructure: (x: number, y: number) => void
-  demolishStructure: (x: number, y: number) => void
-  setSpeed: (speed: Speed) => void
-  setPrice: (plotType: PlotType, price: number) => void
-  advanceHour: () => void
-  setWeather: (weather: Weather) => void
-  setSeason: (season: Season) => void
-  addTourist: (tourist: TouristGroup) => void
-  updateTourist: (id: string, updates: Partial<TouristGroup>) => void
-  removeTourist: (id: string) => void
-  assignPlot: (touristId: string, x: number, y: number) => void
-  vacatePlot: (x: number, y: number) => void
-  addReview: (review: Review) => void
-  addLog: (entry: Omit<LogEntry, 'id'>) => void
-  addChatter: (msg: Omit<ChatterMessage, 'id'>) => void
-  addMoney: (amount: number) => void
-  setReputation: (rep: number) => void
-  resetGame: () => void
-}
-
-function createInitialState(): GameState {
+function createInitialState() {
   return {
     grid: generateInitialGrid(GRID_WIDTH, GRID_HEIGHT),
     gridWidth: GRID_WIDTH,
@@ -69,7 +33,7 @@ function createInitialState(): GameState {
   }
 }
 
-export const useGameStore = create<GameState & GameActions>()(
+export const useGameStore = create()(
   subscribeWithSelector((set, get) => ({
     ...createInitialState(),
 
@@ -165,7 +129,7 @@ export const useGameStore = create<GameState & GameActions>()(
           grid: newGrid,
           tourists: state.tourists.map((t) =>
             t.id === touristId
-              ? { ...t, assignedPlot: { x, y }, status: 'staying' as const }
+              ? { ...t, assignedPlot: { x, y }, status: 'staying' }
               : t
           ),
         }
@@ -209,7 +173,7 @@ export const useGameStore = create<GameState & GameActions>()(
   }))
 )
 
-export function extractGameState(s: GameState & GameActions): GameState {
+export function extractGameState(s) {
   return {
     grid: s.grid,
     gridWidth: s.gridWidth,
@@ -232,7 +196,7 @@ export function extractGameState(s: GameState & GameActions): GameState {
   }
 }
 
-let autosaveTimer: ReturnType<typeof setTimeout> | null = null
+let autosaveTimer = null
 
 useGameStore.subscribe(
   (state) => ({
@@ -276,13 +240,13 @@ window.addEventListener('beforeunload', () => {
   }
 })
 
-export async function loadSavedGame(): Promise<boolean> {
+export async function loadSavedGame() {
   const saved = await loadGame()
   if (saved) {
     const lsSpeed = localStorage.getItem('campground-speed')
-    const speed: Speed =
+    const speed =
       lsSpeed != null && [0, 1, 2, 5].includes(Number(lsSpeed))
-        ? (Number(lsSpeed) as Speed)
+        ? Number(lsSpeed)
         : (saved.speed ?? 0)
     useGameStore.setState({
       ...saved,

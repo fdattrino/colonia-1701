@@ -1,7 +1,6 @@
 import { useGameStore } from '../store/gameStore'
-import type { TouristGroup, ChatterMood, Personality } from '../store/types'
 
-const FALLBACK_LINES: Record<Personality, Record<ChatterMood, string[]>> = {
+const FALLBACK_LINES = {
   'quiet-nature-lover': {
     happy: [
       'Listen to those birds...',
@@ -145,8 +144,8 @@ const FALLBACK_LINES: Record<Personality, Record<ChatterMood, string[]>> = {
   },
 }
 
-function pickMood(satisfaction: number, weather: string): ChatterMood {
-  const moods: ChatterMood[] = []
+function pickMood(satisfaction, weather) {
+  const moods = []
 
   if (weather === 'stormy' || weather === 'rainy') {
     // Bad weather biases mood but doesn't lock it
@@ -166,11 +165,11 @@ function pickMood(satisfaction: number, weather: string): ChatterMood {
   return moods[Math.floor(Math.random() * moods.length)]
 }
 
-function pick<T>(arr: T[]): T {
+function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-const WEATHER_SPECIFIC_LINES: Record<string, Record<Personality, string[]>> = {
+const WEATHER_SPECIFIC_LINES = {
   rainy: {
     'quiet-nature-lover': [
       'Rain on the tent. So soothing.',
@@ -234,10 +233,7 @@ const WEATHER_SPECIFIC_LINES: Record<string, Record<Personality, string[]>> = {
 const ACTIONABLE_PATTERNS =
   /\b(need|where|no |closed|rip-off|broken|fix|missing|dirty|clean|refund|price|expensive|safe|loud|noise|quiet|wifi|wi-fi|restroom|bathroom|shower|playground|store|trail)\b/i
 
-export function generateChatter(
-  tourist: TouristGroup,
-  replyTarget?: { name: string; text: string }
-): { text: string; mood: ChatterMood; actionable?: boolean } {
+export function generateChatter(tourist, replyTarget) {
   const weather = useGameStore.getState().weather
   const mood = pickMood(tourist.satisfaction, weather)
 

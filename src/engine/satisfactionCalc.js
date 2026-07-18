@@ -1,17 +1,11 @@
-import type { Tile, TouristGroup, Weather, FacilityType } from '../store/types'
-import { isFacilityType, isPlotType } from '../store/types'
+import { isFacilityType } from '../store/constants'
 
-function distance(x1: number, y1: number, x2: number, y2: number): number {
+function distance(x1, y1, x2, y2) {
   return Math.abs(x1 - x2) + Math.abs(y1 - y2)
 }
 
-function findNearbyFacilities(
-  grid: Tile[][],
-  x: number,
-  y: number,
-  radius: number
-): FacilityType[] {
-  const facilities: FacilityType[] = []
+function findNearbyFacilities(grid, x, y, radius) {
+  const facilities = []
   for (let dy = -radius; dy <= radius; dy++) {
     for (let dx = -radius; dx <= radius; dx++) {
       const tile = grid[y + dy]?.[x + dx]
@@ -23,12 +17,7 @@ function findNearbyFacilities(
   return facilities
 }
 
-function countNearbyOccupants(
-  grid: Tile[][],
-  x: number,
-  y: number,
-  radius: number
-): number {
+function countNearbyOccupants(grid, x, y, radius) {
   let count = 0
   for (let dy = -radius; dy <= radius; dy++) {
     for (let dx = -radius; dx <= radius; dx++) {
@@ -40,12 +29,7 @@ function countNearbyOccupants(
   return count
 }
 
-function isNearWater(
-  grid: Tile[][],
-  x: number,
-  y: number,
-  radius: number
-): boolean {
+function isNearWater(grid, x, y, radius) {
   for (let dy = -radius; dy <= radius; dy++) {
     for (let dx = -radius; dx <= radius; dx++) {
       const tile = grid[y + dy]?.[x + dx]
@@ -56,11 +40,11 @@ function isNearWater(
 }
 
 export function calculateSatisfactionDelta(
-  tourist: TouristGroup,
-  grid: Tile[][],
-  weather: Weather,
-  pricePerNight: number
-): number {
+  tourist,
+  grid,
+  weather,
+  pricePerNight
+) {
   if (!tourist.assignedPlot) return 0
 
   const { x, y } = tourist.assignedPlot

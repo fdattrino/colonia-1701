@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useGameStore } from '../store/gameStore'
-import {
-  generateTourist,
-  selectPlot,
-  generateReview,
-} from './touristGenerator'
+import { generateTourist, selectPlot, generateReview } from './touristGenerator'
 import { generateChatter } from './chatterGenerator'
 import { calculateSatisfactionDelta } from './satisfactionCalc'
 import { rollWeather } from './weatherSystem'
@@ -18,28 +14,18 @@ import {
   isFacilityType,
   MAINTENANCE_COSTS,
   STRUCTURE_LABELS,
-} from '../store/types'
-import type { Tile, PlotType } from '../store/types'
+} from '../store/constants'
 
-function getAvailablePlots(grid: Tile[][]): Array<{
-  index: number
-  type: PlotType
-  x: number
-  y: number
-  nearFacilities: string[]
-  hasNeighbors: boolean
-  nearWater: boolean
-  price: number
-}> {
+function getAvailablePlots(grid) {
   const pricing = useGameStore.getState().pricing
-  const plots: ReturnType<typeof getAvailablePlots> = []
+  const plots = []
   let idx = 0
 
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
       const tile = grid[y][x]
       if (tile.structure && isPlotType(tile.structure.type) && !tile.occupant) {
-        const nearFacilities: string[] = []
+        const nearFacilities = []
         let hasNeighbors = false
         let nearWater = false
 
@@ -57,13 +43,13 @@ function getAvailablePlots(grid: Tile[][]): Array<{
 
         plots.push({
           index: idx,
-          type: tile.structure.type as PlotType,
+          type: tile.structure.type,
           x,
           y,
           nearFacilities: [...new Set(nearFacilities)],
           hasNeighbors,
           nearWater,
-          price: pricing[tile.structure.type as PlotType],
+          price: pricing[tile.structure.type],
         })
         idx++
       }
@@ -135,7 +121,7 @@ async function handleDepartures() {
     if (!tourist.assignedPlot) continue
 
     const tile = grid[tourist.assignedPlot.y]?.[tourist.assignedPlot.x]
-    const plotType = tile?.structure?.type as PlotType | undefined
+    const plotType = tile?.structure?.type
 
     useGameStore.getState().updateTourist(tourist.id, { status: 'departing' })
 
@@ -187,7 +173,7 @@ function handleSatisfaction() {
     if (!tourist.assignedPlot) continue
 
     const tile = state.grid[tourist.assignedPlot.y]?.[tourist.assignedPlot.x]
-    const plotType = tile?.structure?.type as PlotType | undefined
+    const plotType = tile?.structure?.type
     const price = plotType ? state.pricing[plotType] : 15
 
     const delta = calculateSatisfactionDelta(
@@ -232,7 +218,7 @@ function handleNightlyRevenue() {
   for (const tourist of state.tourists) {
     if (tourist.status === 'staying' && tourist.assignedPlot) {
       const tile = state.grid[tourist.assignedPlot.y]?.[tourist.assignedPlot.x]
-      const plotType = tile?.structure?.type as PlotType | undefined
+      const plotType = tile?.structure?.type
       if (plotType) {
         revenue += state.pricing[plotType]
       }
@@ -297,8 +283,8 @@ async function handleChatter() {
       if (msg.touristId === candidate.id) return false
       const speaker = staying.find((t) => t.id === msg.touristId)
       if (!speaker?.assignedPlot || !candidate.assignedPlot) return false
-      const dx = Math.abs(speaker.assignedPlot.x - candidate.assignedPlot!.x)
-      const dy = Math.abs(speaker.assignedPlot.y - candidate.assignedPlot!.y)
+      const dx = Math.abs(speaker.assignedPlot.x - candidate.assignedPlot.x)
+      const dy = Math.abs(speaker.assignedPlot.y - candidate.assignedPlot.y)
       return dx <= 3 && dy <= 3
     })
 
@@ -389,7 +375,7 @@ function processTick() {
 
 export function useGameLoop() {
   const speed = useGameStore((s) => s.speed)
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const intervalRef = useRef(null)
 
   useEffect(() => {
     if (intervalRef.current !== null) {

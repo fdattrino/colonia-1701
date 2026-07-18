@@ -4,10 +4,9 @@ import {
   FACILITY_TYPES,
   BUILD_COSTS,
   STRUCTURE_LABELS,
-  type StructureType,
-} from '../../store/types'
+} from '../../store/constants'
 
-function BuildButton({ type }: { type: StructureType }) {
+function BuildButton({ type }) {
   const buildMode = useGameStore((s) => s.buildMode)
   const money = useGameStore((s) => s.money)
   const setBuildMode = useGameStore((s) => s.setBuildMode)

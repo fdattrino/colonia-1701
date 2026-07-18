@@ -2,10 +2,9 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 import { useGameStore } from '../../store/gameStore'
 import { gridToScreen, TILE_W, TILE_H } from '../../utils/grid'
 import { TerrainSprite, StructureSprite, TouristSprite } from './TileSprites'
-import type { Tile } from '../../store/types'
 
 export function IsometricGrid() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef(null)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [dragging, setDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -35,7 +34,7 @@ export function IsometricGrid() {
   const dragStartPos = useRef({ x: 0, y: 0 })
 
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
+    (e) => {
       if (e.button === 0 || e.button === 1) {
         setDragging(true)
         setHasDragged(false)
@@ -47,7 +46,7 @@ export function IsometricGrid() {
   )
 
   const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
+    (e) => {
       if (dragging) {
         const dx = e.clientX - dragStartPos.current.x
         const dy = e.clientY - dragStartPos.current.y
@@ -67,13 +66,13 @@ export function IsometricGrid() {
     setDragging(false)
   }, [])
 
-  const handleWheel = useCallback((e: React.WheelEvent) => {
+  const handleWheel = useCallback((e) => {
     e.preventDefault()
     setZoom((z) => Math.max(0.5, Math.min(3, z - e.deltaY * 0.001)))
   }, [])
 
   const handleTileClick = useCallback(
-    (tile: Tile) => {
+    (tile) => {
       if (hasDragged) return
       if (buildMode === 'demolish') {
         demolishStructure(tile.x, tile.y)
@@ -97,7 +96,7 @@ export function IsometricGrid() {
     ]
   )
 
-  const sortedTiles: Tile[] = []
+  const sortedTiles = []
   for (let y = 0; y < gridHeight; y++) {
     for (let x = 0; x < gridWidth; x++) {
       sortedTiles.push(grid[y][x])

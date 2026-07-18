@@ -4,7 +4,7 @@ export const STARTING_MONEY = 5000
 export const STARTING_REPUTATION = 50
 export const HOURS_PER_DAY = 24
 
-export const TICK_INTERVALS: Record<number, number> = {
+export const TICK_INTERVALS = {
   0: 0,
   1: 1000,
   2: 500,
@@ -20,7 +20,7 @@ export const DEPARTURE_HOUR = 10
 export const REVIEW_HOUR = 22
 export const DAY_RESET_HOUR = 0
 
-export const WEATHER_LABELS: Record<string, string> = {
+export const WEATHER_LABELS = {
   sunny: '☀️ Sunny',
   cloudy: '⛅ Cloudy',
   rainy: '🌧️ Rainy',
@@ -28,14 +28,14 @@ export const WEATHER_LABELS: Record<string, string> = {
   perfect: '🌤️ Perfect',
 }
 
-export const SEASON_LABELS: Record<string, string> = {
+export const SEASON_LABELS = {
   spring: '🌱 Spring',
   summer: '☀️ Summer',
   fall: '🍂 Fall',
   winter: '❄️ Winter',
 }
 
-export const SEASON_DEMAND_MULTIPLIER: Record<string, number> = {
+export const SEASON_DEMAND_MULTIPLIER = {
   spring: 0.7,
   summer: 1.3,
   fall: 0.5,

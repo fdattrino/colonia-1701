@@ -1,5 +1,5 @@
 import { useGameStore } from '../../store/gameStore'
-import { STRUCTURE_LABELS, isPlotType, isFacilityType } from '../../store/types'
+import { STRUCTURE_LABELS, isPlotType } from '../../store/constants'
 
 export function TileInfo() {
   const selectedTile = useGameStore((s) => s.selectedTile)

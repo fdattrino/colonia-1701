@@ -1,7 +1,7 @@
 import { useGameStore } from '../../store/gameStore'
-import { PLOT_TYPES, STRUCTURE_LABELS, type PlotType } from '../../store/types'
+import { PLOT_TYPES, STRUCTURE_LABELS } from '../../store/constants'
 
-function PriceRow({ plotType }: { plotType: PlotType }) {
+function PriceRow({ plotType }) {
   const price = useGameStore((s) => s.pricing[plotType])
   const setPrice = useGameStore((s) => s.setPrice)
 

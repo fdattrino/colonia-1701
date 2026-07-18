@@ -1,13 +1,4 @@
 import { useGameStore } from '../store/gameStore'
-import type {
-  TouristGroup,
-  Season,
-  Weather,
-  PlotType,
-  Personality,
-  Preference,
-  Review,
-} from '../store/types'
 
 const FIRST_NAMES = [
   'Sarah',
@@ -75,7 +66,7 @@ const LAST_NAMES = [
   'Ortiz',
 ]
 
-function pickUniqueName(usedNames: Set<string>): string {
+function pickUniqueName(usedNames) {
   for (let attempt = 0; attempt < 20; attempt++) {
     const first = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)]
     const last = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)]
@@ -87,7 +78,7 @@ function pickUniqueName(usedNames: Set<string>): string {
   return `${first} ${last}`
 }
 
-function getExistingNames(): string[] {
+function getExistingNames() {
   return useGameStore
     .getState()
     .tourists.filter((t) => t.status === 'staying' || t.status === 'arriving')
@@ -126,7 +117,7 @@ const FAMILY_COMPOSITIONS = [
   'family with twin toddlers',
 ]
 
-function pickComposition(personality: string): string {
+function pickComposition(personality) {
   if (personality === 'family-focused') {
     return FAMILY_COMPOSITIONS[
       Math.floor(Math.random() * FAMILY_COMPOSITIONS.length)
@@ -135,7 +126,7 @@ function pickComposition(personality: string): string {
   return COMPOSITIONS_BASE[Math.floor(Math.random() * COMPOSITIONS_BASE.length)]
 }
 
-const PERSONALITIES: Personality[] = [
+const PERSONALITIES = [
   'quiet-nature-lover',
   'social-party',
   'budget-backpacker',
@@ -144,7 +135,7 @@ const PERSONALITIES: Personality[] = [
   'family-focused',
 ]
 
-const PREFERENCE_SETS: Preference[][] = [
+const PREFERENCE_SETS = [
   ['near-water', 'quiet', 'shade'],
   ['social', 'near-facilities', 'electricity'],
   ['quiet', 'trail-access', 'shade'],
@@ -153,16 +144,11 @@ const PREFERENCE_SETS: Preference[][] = [
   ['playground', 'near-facilities', 'social'],
 ]
 
-export function generateTourist(
-  day: number,
-  season: Season,
-  weather: Weather,
-  reputation: number
-): Omit<TouristGroup, 'id'> {
+export function generateTourist(day, season, weather, reputation) {
   const usedNames = new Set(getExistingNames())
   const name = pickUniqueName(usedNames)
 
-  let personality: Personality
+  let personality
   const roll = Math.random()
   if (season === 'summer') {
     personality =
@@ -209,23 +195,7 @@ export function generateTourist(
   }
 }
 
-export function selectPlot(
-  tourist: TouristGroup,
-  availablePlots: Array<{
-    index: number
-    type: PlotType
-    price: number
-    nearFacilities: string[]
-    hasNeighbors: boolean
-    nearWater: boolean
-    x: number
-    y: number
-  }>
-): {
-  decision: 'stay' | 'leave'
-  plotIndex: number | null
-  reasoning: string
-} {
+export function selectPlot(tourist, availablePlots) {
   if (availablePlots.length === 0) {
     return {
       decision: 'leave',
@@ -266,12 +236,7 @@ export function selectPlot(
   }
 }
 
-export function generateReview(
-  tourist: TouristGroup,
-  plotType: PlotType,
-  weather: Weather,
-  price: number
-): Review {
+export function generateReview(tourist, plotType, weather, price) {
   const rating =
     tourist.satisfaction >= 80
       ? 5
@@ -282,7 +247,7 @@ export function generateReview(
           : tourist.satisfaction >= 20
             ? 2
             : 1
-  const texts: Record<number, string[]> = {
+  const texts = {
     5: [
       'Amazing stay! Everything was perfect.',
       'Loved every minute of it. Will be back!',

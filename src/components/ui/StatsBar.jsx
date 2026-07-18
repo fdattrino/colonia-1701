@@ -1,7 +1,7 @@
 import { useGameStore } from '../../store/gameStore'
 import { WEATHER_LABELS, SEASON_LABELS } from '../../utils/constants'
 
-export function StatsBar({ onHelpClick }: { onHelpClick: () => void }) {
+export function StatsBar({ onHelpClick }) {
   const day = useGameStore((s) => s.day)
   const hour = useGameStore((s) => s.hour)
   const money = useGameStore((s) => s.money)

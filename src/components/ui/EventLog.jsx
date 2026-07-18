@@ -1,7 +1,6 @@
 import { useGameStore } from '../../store/gameStore'
-import type { LogEntry } from '../../store/types'
 
-const TYPE_COLORS: Record<LogEntry['type'], string> = {
+const TYPE_COLORS = {
   arrival: 'text-cyan-400',
   departure: 'text-amber-400',
   review: 'text-purple-400',
@@ -10,7 +9,7 @@ const TYPE_COLORS: Record<LogEntry['type'], string> = {
   weather: 'text-sky-400',
 }
 
-const TYPE_ICONS: Record<LogEntry['type'], string> = {
+const TYPE_ICONS = {
   arrival: '→',
   departure: '←',
   review: '★',

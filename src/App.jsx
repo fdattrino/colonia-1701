@@ -25,13 +25,13 @@ export default function App() {
   const dragStartH = useRef(0)
 
   const onResizeStart = useCallback(
-    (e: React.MouseEvent) => {
+    (e) => {
       e.preventDefault()
       dragging.current = true
       dragStartY.current = e.clientY
       dragStartH.current = bottomHeight
 
-      const onMove = (ev: MouseEvent) => {
+      const onMove = (ev) => {
         if (!dragging.current) return
         const delta = dragStartY.current - ev.clientY
         const next = Math.max(
@@ -56,13 +56,13 @@ export default function App() {
   const sidebarDragStartW = useRef(0)
 
   const onSidebarResizeStart = useCallback(
-    (e: React.MouseEvent) => {
+    (e) => {
       e.preventDefault()
       sidebarDragging.current = true
       sidebarDragStartX.current = e.clientX
       sidebarDragStartW.current = sidebarWidth
 
-      const onMove = (ev: MouseEvent) => {
+      const onMove = (ev) => {
         if (!sidebarDragging.current) return
         const delta = ev.clientX - sidebarDragStartX.current
         const next = Math.max(

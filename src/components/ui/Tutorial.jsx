@@ -118,7 +118,7 @@ Have fun managing your campground!`,
   },
 ]
 
-export function Tutorial({ onClose }: { onClose: () => void }) {
+export function Tutorial({ onClose }) {
   const [step, setStep] = useState(0)
   const current = STEPS[step]
   const isLast = step === STEPS.length - 1

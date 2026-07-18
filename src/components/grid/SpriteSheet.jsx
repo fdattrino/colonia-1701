@@ -1,12 +1,8 @@
-import type { TerrainType, StructureType } from '../../store/types'
-
 const SHEET = '/sprites.png'
 const SHEET_W = 1376
 const SHEET_H = 768
 
-type SpriteRect = { x: number; y: number; w: number; h: number }
-
-const TERRAIN_SPRITES: Record<TerrainType, SpriteRect> = {
+const TERRAIN_SPRITES = {
   grass: { x: 22, y: 21, w: 238, h: 180 },
   water: { x: 293, y: 41, w: 238, h: 150 },
   trees: { x: 565, y: 0, w: 239, h: 201 },
@@ -14,7 +10,7 @@ const TERRAIN_SPRITES: Record<TerrainType, SpriteRect> = {
   sand: { x: 1113, y: 25, w: 245, h: 170 },
 }
 
-const TERRAIN_COLORS: Record<TerrainType, string> = {
+const TERRAIN_COLORS = {
   grass: '#6ba84e',
   water: '#2e8acc',
   trees: '#3a6b30',
@@ -22,14 +18,14 @@ const TERRAIN_COLORS: Record<TerrainType, string> = {
   sand: '#e0c468',
 }
 
-const PLOT_SPRITES: Record<string, SpriteRect> = {
+const PLOT_SPRITES = {
   'tent-small': { x: 26, y: 195, w: 272, h: 226 },
   'tent-large': { x: 351, y: 195, w: 301, h: 226 },
   campervan: { x: 741, y: 195, w: 203, h: 226 },
   'rv-hookup': { x: 1031, y: 207, w: 272, h: 212 },
 }
 
-const FACILITY_SPRITES: Record<string, SpriteRect> = {
+const FACILITY_SPRITES = {
   restroom: { x: 16, y: 415, w: 170, h: 186 },
   shower: { x: 216, y: 415, w: 107, h: 184 },
   'fire-pit': { x: 365, y: 416, w: 114, h: 160 },
@@ -40,12 +36,12 @@ const FACILITY_SPRITES: Record<string, SpriteRect> = {
   'trail-head': { x: 1260, y: 435, w: 76, h: 146 },
 }
 
-const STRUCTURE_SPRITES: Record<string, SpriteRect> = {
+const STRUCTURE_SPRITES = {
   ...PLOT_SPRITES,
   ...FACILITY_SPRITES,
 }
 
-const TOURIST_SPRITES: Record<string, SpriteRect> = {
+const TOURIST_SPRITES = {
   'quiet-nature-lover': { x: 104, y: 620, w: 70, h: 121 },
   'social-party': { x: 343, y: 617, w: 68, h: 123 },
   'budget-backpacker': { x: 537, y: 609, w: 69, h: 132 },
@@ -54,17 +50,7 @@ const TOURIST_SPRITES: Record<string, SpriteRect> = {
   'family-focused': { x: 1118, y: 600, w: 186, h: 162 },
 }
 
-function Sprite({
-  sprite,
-  displayWidth,
-  displayHeight,
-  className = '',
-}: {
-  sprite: SpriteRect
-  displayWidth: number
-  displayHeight: number
-  className?: string
-}) {
+function Sprite({ sprite, displayWidth, displayHeight, className = '' }) {
   const scaleX = displayWidth / sprite.w
   const scaleY = displayHeight / sprite.h
 
@@ -87,7 +73,7 @@ function Sprite({
 const TILE_CLIP =
   'polygon(50% 0%, 100% 33.33%, 100% 66.67%, 50% 100%, 0% 66.67%, 0% 33.33%)'
 
-export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
+export function TerrainSprite({ terrain }) {
   const sprite = TERRAIN_SPRITES[terrain]
   if (!sprite) return null
 
@@ -121,20 +107,12 @@ export function TerrainSprite({ terrain }: { terrain: TerrainType }) {
   )
 }
 
-export function StructureSprite({
-  type,
-  occupied,
-  wide,
-}: {
-  type: StructureType
-  occupied?: boolean
-  wide?: boolean
-}) {
+export function StructureSprite({ type, occupied, wide }) {
   const sprite = STRUCTURE_SPRITES[type]
   if (!sprite) return null
 
-  let displayWidth: number
-  let displayHeight: number
+  let displayWidth
+  let displayHeight
 
   if (wide) {
     displayWidth = 72
@@ -157,7 +135,7 @@ export function StructureSprite({
   )
 }
 
-export function TouristSprite({ personality }: { personality?: string }) {
+export function TouristSprite({ personality }) {
   const sprite = TOURIST_SPRITES[personality || '']
   if (!sprite) return null
   return <Sprite sprite={sprite} displayWidth={16} displayHeight={24} />
